@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table, Button, Form, Col, Row, Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DatePicker from 'react-datepicker';
@@ -6,10 +6,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Sidebar from './Sidebar';
 import './Admin.css';
 import { format } from 'date-fns'; 
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 const Admin = () => {
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     name: '',
     email: '',
     selectedDate: new Date(),
@@ -18,8 +18,9 @@ const Admin = () => {
       {
         id: 1,
         task: 'Sample Task',
+        domain: 'Development',
         description: 'Task description',
-        files: [], 
+        files: [],
         createTime: new Date('2024-09-01T12:00:00'),
         assignedTime: new Date('2024-09-02T10:00:00'),
         workCompleteTime: new Date('2024-09-05T16:00:00'),
@@ -35,18 +36,16 @@ const Admin = () => {
     ],
   });
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleSaveChanges = () => {
     setState((prevState) => {
-      const updatedTasks = prevState.tasks.map((task) => {
-        return {
-          ...task,
-          createStatusTime: task.createStatus ? new Date() : task.createStatusTime,
-          assignedStatusTime: task.assignedStatus ? new Date() : task.assignedStatusTime,
-          workCompleteStatusTime: task.workCompleteStatus ? new Date() : task.workCompleteStatusTime,
-        };
-      });
+      const updatedTasks = prevState.tasks.map((task) => ({
+        ...task,
+        createStatusTime: task.createStatus ? new Date() : task.createStatusTime,
+        assignedStatusTime: task.assignedStatus ? new Date() : task.assignedStatusTime,
+        workCompleteStatusTime: task.workCompleteStatus ? new Date() : task.workCompleteStatusTime,
+      }));
 
       return { ...prevState, tasks: updatedTasks, isEditing: false };
     });
@@ -58,7 +57,7 @@ const Admin = () => {
   };
 
   const formatDate = (date) => {
-    return date ? format(new Date(date), 'yyyy-MM-dd HH:mm') : 'N/A';
+    return date ? format(new Date(date), 'dd-MM-yyyy HH:mm') : 'N/A';
   };
 
   const handleLogout = () => {
@@ -85,8 +84,8 @@ const Admin = () => {
   };
 
   const handleTeamsClick = () => {
-    const chatUrl = `https://teams.microsoft.com/l/chat/0/0?users=${state.name}`; 
-    window.location.href = chatUrl; 
+    const chatUrl = `https://teams.microsoft.com/l/chat/0/0?users=${state.name}`;
+    window.location.href = chatUrl;
   };
 
   const handleRadioChange = (e, index, field) => {
@@ -164,14 +163,12 @@ const Admin = () => {
                   <thead>
                     <tr>
                       <th>Task</th>
+                      <th>Domain</th>
                       <th>Description</th>
                       <th>Files</th>
-                      <th>Create Status Time</th>
-                      <th>Create Status</th>
-                      <th>Assigned Status Time</th>
-                      <th>Assigned Status</th>
-                      <th>Work Complete Status Time</th>
-                      <th>Work Complete Status</th>
+                      <th>Create Time & Date</th>
+                      <th>Assigned Time & Date</th>
+                      <th>Work Complete Time & Date</th>
                       <th>Employee Comment</th>
                       <th>Manager Comment</th>
                     </tr>
@@ -188,6 +185,17 @@ const Admin = () => {
                             />
                           ) : (
                             task.task
+                          )}
+                        </td>
+                        <td>
+                          {isEditing ? (
+                            <Form.Control
+                              type="text"
+                              value={task.domain}
+                              onChange={(e) => handleInputChange(e, index, 'domain')}
+                            />
+                          ) : (
+                            task.domain
                           )}
                         </td>
                         <td>
@@ -221,46 +229,15 @@ const Admin = () => {
                         </td>
 
                         <td>
-                          <small> {formatDate(task.createStatusTime)}</small>
-                        </td>
-                        <td>
-                          <Form.Check
-                            type="radio"
-                            name={`createStatus-${index}`}
-                            label="Created"
-                            value="created"
-                            checked={task.createStatus === 'created'}
-                            onChange={(e) => handleRadioChange(e, index, 'createStatus')}
-                          />
-                          
+                          <small>{formatDate(task.createStatusTime)}</small>
                         </td>
 
                         <td>
-                          <small> {formatDate(task.assignedStatusTime)}</small>
-                        </td>
-                        <td>
-                          <Form.Check
-                            type="radio"
-                            name={`assignedStatus-${index}`}
-                            label="Assigned"
-                            value="completed"
-                            checked={task.assignedStatus === 'completed'}
-                            onChange={(e) => handleRadioChange(e, index, 'assignedStatus')}
-                          />
+                          <small>{formatDate(task.assignedStatusTime)}</small>
                         </td>
 
                         <td>
-                          <small> {formatDate(task.workCompleteStatusTime)}</small>
-                        </td>
-                        <td>
-                          <Form.Check
-                            type="radio"
-                            name={`workCompleteStatus-${index}`}
-                            label="Work Done"
-                            value="completed"
-                            checked={task.workCompleteStatus === 'completed'}
-                            onChange={(e) => handleRadioChange(e, index, 'workCompleteStatus')}
-                          />
+                          <small>{formatDate(task.workCompleteStatusTime)}</small>
                         </td>
 
                         <td>
