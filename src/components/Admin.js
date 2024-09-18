@@ -6,21 +6,22 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Sidebar from './Sidebar';
 import './Admin.css';
 import { format } from 'date-fns'; 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; 
 
 const Admin = () => {
   const [state, setState] = useState({
     name: '',
     email: '',
+    mobileNumber: '',
+    skills: '',
     selectedDate: new Date(),
     isEditing: false,
     tasks: [
       {
         id: 1,
         task: 'Sample Task',
-        domain: 'Development',
         description: 'Task description',
-        files: [],
+        files: [], 
         createTime: new Date('2024-09-01T12:00:00'),
         assignedTime: new Date('2024-09-02T10:00:00'),
         workCompleteTime: new Date('2024-09-05T16:00:00'),
@@ -40,12 +41,14 @@ const Admin = () => {
 
   const handleSaveChanges = () => {
     setState((prevState) => {
-      const updatedTasks = prevState.tasks.map((task) => ({
-        ...task,
-        createStatusTime: task.createStatus ? new Date() : task.createStatusTime,
-        assignedStatusTime: task.assignedStatus ? new Date() : task.assignedStatusTime,
-        workCompleteStatusTime: task.workCompleteStatus ? new Date() : task.workCompleteStatusTime,
-      }));
+      const updatedTasks = prevState.tasks.map((task) => {
+        return {
+          ...task,
+          createStatusTime: task.createStatus ? new Date() : task.createStatusTime,
+          assignedStatusTime: task.assignedStatus ? new Date() : task.assignedStatusTime,
+          workCompleteStatusTime: task.workCompleteStatus ? new Date() : task.workCompleteStatusTime,
+        };
+      });
 
       return { ...prevState, tasks: updatedTasks, isEditing: false };
     });
@@ -57,11 +60,11 @@ const Admin = () => {
   };
 
   const formatDate = (date) => {
-    return date ? format(new Date(date), 'dd-MM-yyyy HH:mm') : 'N/A';
+    return date ? format(new Date(date), 'yyyy-MM-dd HH:mm') : 'N/A';
   };
 
   const handleLogout = () => {
-    navigate('/login'); //login
+    navigate('/login'); 
   };
 
   const handleEditClick = () => {
@@ -78,14 +81,21 @@ const Admin = () => {
   const handleFileChange = (e, index) => {
     const { files } = e.target;
     const updatedTasks = [...state.tasks];
-    const fileNames = Array.from(files).map((file) => file.name);
+    const fileNames = Array.from(files).map((file) => file.name); 
     updatedTasks[index].files = fileNames;
     setState((prevState) => ({ ...prevState, tasks: updatedTasks }));
   };
 
+  const handleMobileNumberChange = (e) => {
+    const { value } = e.target;
+    if (/^\d*$/.test(value) && value.length <= 10) {
+      setState({ ...state, mobileNumber: value });
+    }
+  };
+
   const handleTeamsClick = () => {
-    const chatUrl = `https://teams.microsoft.com/l/chat/0/0?users=${state.name}`;
-    window.location.href = chatUrl;
+    const chatUrl = `https://teams.microsoft.com/l/chat/0/0?users=${state.name}`; 
+    window.location.href = chatUrl; 
   };
 
   const handleRadioChange = (e, index, field) => {
@@ -95,7 +105,33 @@ const Admin = () => {
     setState((prevState) => ({ ...prevState, tasks: updatedTasks }));
   };
 
-  const { name, email, selectedDate, tasks, isEditing } = state;
+  const handleTaskClick = (taskId) => {
+    navigate(`/tasks/${taskId}`);
+  };
+
+  // Add this function to handle adding a new task
+  const handleAddTask = () => {
+    const newTask = {
+      id: state.tasks.length + 1, // Incrementing ID for simplicity
+      task: '',
+      description: '',
+      files: [], 
+      createTime: new Date(),
+      assignedTime: null,
+      workCompleteTime: null,
+      employeeComment: '',
+      managerComment: '',
+      createStatus: '', 
+      assignedStatus: '', 
+      workCompleteStatus: '',
+      createStatusTime: null, 
+      assignedStatusTime: null, 
+      workCompleteStatusTime: null, 
+    };
+    setState((prevState) => ({ ...prevState, tasks: [...prevState.tasks, newTask] }));
+  };
+
+  const { name, email, mobileNumber, skills, selectedDate, tasks, isEditing } = state;
 
   return (
     <div className="admin-background">
@@ -137,6 +173,28 @@ const Admin = () => {
                 </Form.Group>
               </Col>
               <Col md={6}>
+                <Form.Group controlId="mobileNumber">
+                  <Form.Label>Mobile Number: </Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Mobile Number"
+                    value={mobileNumber}
+                    onChange={handleMobileNumberChange} 
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group controlId="skills">
+                  <Form.Label>Skills: </Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Skills"
+                    value={skills}
+                    onChange={(e) => setState({ ...state, skills: e.target.value })}
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
                 <Button variant="info" onClick={handleTeamsClick}>
                   Teams
                 </Button>
@@ -150,7 +208,7 @@ const Admin = () => {
                   <DatePicker
                     selected={selectedDate}
                     onChange={(date) => setState({ ...state, selectedDate: date })}
-                    dateFormat="yyyy-MM-dd"
+                    dateFormat="dd-MM-yyyy"
                     className="form-control"
                   />
                 </Form.Group>
@@ -159,16 +217,21 @@ const Admin = () => {
 
             <Row>
               <Col>
+                <Button variant="success" onClick={handleAddTask} className="mb-3">
+                  Add Task
+                </Button>
                 <Table striped bordered hover>
                   <thead>
                     <tr>
                       <th>Task</th>
-                      <th>Domain</th>
                       <th>Description</th>
                       <th>Files</th>
-                      <th>Create Time & Date</th>
-                      <th>Assigned Time & Date</th>
-                      <th>Work Complete Time & Date</th>
+                      <th>Create Date & Time</th>
+                      <th>Create Status</th>
+                      <th>Assigned Date & Time</th>
+                      <th>Assigned Status</th>
+                      <th>Complete Date & Time</th>
+                      <th>Complete Status</th>
                       <th>Employee Comment</th>
                       <th>Manager Comment</th>
                     </tr>
@@ -184,18 +247,9 @@ const Admin = () => {
                               onChange={(e) => handleInputChange(e, index, 'task')}
                             />
                           ) : (
-                            task.task
-                          )}
-                        </td>
-                        <td>
-                          {isEditing ? (
-                            <Form.Control
-                              type="text"
-                              value={task.domain}
-                              onChange={(e) => handleInputChange(e, index, 'domain')}
-                            />
-                          ) : (
-                            task.domain
+                            <a href="#" onClick={() => handleTaskClick(task.id)}>
+                              {index + 1}. {task.task}  {/* Serial number added here */}
+                            </a>
                           )}
                         </td>
                         <td>
@@ -231,20 +285,49 @@ const Admin = () => {
                         <td>
                           <small>{formatDate(task.createStatusTime)}</small>
                         </td>
+                        <td>
+                          <Form.Check
+                            type="radio"
+                            name={`createStatus-${index}`}
+                            label="Created"
+                            value="created"
+                            checked={task.createStatus === 'created'}
+                            onChange={(e) => handleRadioChange(e, index, 'createStatus')}
+                          />
+                        </td>
 
                         <td>
                           <small>{formatDate(task.assignedStatusTime)}</small>
+                        </td>
+                        <td>
+                          <Form.Check
+                            type="radio"
+                            name={`assignedStatus-${index}`}
+                            label="Assigned"
+                            value="completed"
+                            checked={task.assignedStatus === 'completed'}
+                            onChange={(e) => handleRadioChange(e, index, 'assignedStatus')}
+                          />
                         </td>
 
                         <td>
                           <small>{formatDate(task.workCompleteStatusTime)}</small>
                         </td>
+                        <td>
+                          <Form.Check
+                            type="radio"
+                            name={`workCompleteStatus-${index}`}
+                            label="Completed"
+                            value="completed"
+                            checked={task.workCompleteStatus === 'completed'}
+                            onChange={(e) => handleRadioChange(e, index, 'workCompleteStatus')}
+                          />
+                        </td>
 
                         <td>
                           {isEditing ? (
                             <Form.Control
-                              as="textarea"
-                              rows={3}
+                              type="text"
                               value={task.employeeComment}
                               onChange={(e) => handleInputChange(e, index, 'employeeComment')}
                             />
@@ -256,8 +339,7 @@ const Admin = () => {
                         <td>
                           {isEditing ? (
                             <Form.Control
-                              as="textarea"
-                              rows={3}
+                              type="text"
                               value={task.managerComment}
                               onChange={(e) => handleInputChange(e, index, 'managerComment')}
                             />
@@ -269,21 +351,15 @@ const Admin = () => {
                     ))}
                   </tbody>
                 </Table>
-
-                {isEditing && (
-                  <div className="save-changes-btn">
-                    <Button variant="primary" onClick={handleSaveChanges}>
-                      Save Changes
-                    </Button>
-                  </div>
-                )}
-                {!isEditing && (
-                  <Button variant="secondary" onClick={handleEditClick}>
-                    Edit
-                  </Button>
-                )}
               </Col>
             </Row>
+
+            <Button variant="primary" onClick={handleSaveChanges}>
+              Save Changes
+            </Button>
+            <Button variant="secondary" onClick={handleEditClick} className="ml-2">
+              Edit
+            </Button>
           </Col>
         </Row>
       </Container>
