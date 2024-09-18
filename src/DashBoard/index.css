@@ -1,0 +1,13 @@
+.centerItems{
+    display: flex;
+    flex-direction: row;
+}
+.sidebar{
+    width: 300px;
+    padding: 30px;
+}
+
+.adminDash{
+    align-items: center;
+    margin: 20px;
+}
