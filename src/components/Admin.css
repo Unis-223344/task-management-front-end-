@@ -1,0 +1,81 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logout-btn {
+  margin-left: auto;
+}
+
+.ml-2 {
+  margin-left: 0.5rem; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .container {
+    margin-top: 20px;
+  }
+  
+  .form-label {
+    font-weight: bold;
+  }
+  
+  .text-right {
+    text-align: right;
+  }
+  
+  .table th, 
+  .table td {
+    vertical-align: middle;
+  }
+  
+  .button-save {
+    background-color: #28a745;
+    color: white;
+  }
+.flexItems{
+    display: flex;
+    flex-direction: row;
+}
+.head001{
+  
+  color: black;
+  text-align: center;
+  font-weight: bold;
+  font-size: 35px;
+} */

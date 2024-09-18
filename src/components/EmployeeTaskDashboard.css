@@ -1,0 +1,32 @@
+.employee-background {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    padding: 20px;
+  }
+   
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+   
+  .head001 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+   
+  .logout-btn {
+    background-color: #dc3545;
+    border: none;
+    position: absolute; 
+    right: 20px; 
+  }
+   
+  .table {
+    margin-top: 20px;
+  }
+   
+  .text-right {
+    text-align: right;
+  }
