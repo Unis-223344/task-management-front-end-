@@ -61,7 +61,7 @@ const Admin = () => {
   };
 
   const handleLogout = () => {
-    navigate('/login');
+    navigate('/login'); //login
   };
 
   const handleEditClick = () => {
