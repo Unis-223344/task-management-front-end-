@@ -9,7 +9,8 @@ class Sidebar extends Component {
       activeDropdown: null,
       selectedDomain: '',
       filterData: [], 
-      selectedEmployees: [], 
+      selectedEmployees: [],
+      selectEmp:"" 
     };
   }
 
@@ -27,14 +28,19 @@ class Sidebar extends Component {
     this.setState({ selectedDomain: title, activeDropdown: null }, this.filterEmployees);
   };
 
-  handleSelectEmployee = (name) => {
+  handleSelectEmployee = (name2) => {
+    // console.log(name2)
     this.setState((prevState) => {
       const { selectedEmployees } = prevState;
-      const isSelected = selectedEmployees.includes(name);
+      const isSelected = selectedEmployees.includes(name2.employeeName);
  
       const updatedSelectedEmployees = isSelected
-        ? selectedEmployees.filter((employee) => employee !== name)
-        : [...selectedEmployees, name];
+        ? selectedEmployees.filter((employee) => employee !== name2.employeeName)
+        : [...selectedEmployees, name2.employeeName]
+      const employeeSelectedData = this.props.prop.filter(char =>(
+        char.employeeName === updatedSelectedEmployees[0]
+      ))
+      this.setState({ selectEmp: employeeSelectedData})
 
       this.props.onSelectEmployee(updatedSelectedEmployees);
       
@@ -42,28 +48,15 @@ class Sidebar extends Component {
     });
   };
   domains = [
-    'Frontend', 'Backend', 'Database', 'Testing', 'BA', 'Devops', 'Admin'
-  ];
-
-  Employees = [
-    { name: 'Sarvothama', domain: 'Frontend' },
-    { name: 'Davood', domain: 'Frontend' },
-    { name: 'Yaswanth', domain: 'Frontend' },
-    { name: 'Chishwana', domain: 'Backend' },
-    { name: 'Gangadhara', domain: 'Backend' },
-    { name: 'Bhavani', domain: 'Backend' },
-    { name: 'Rama Rao', domain: 'Database' },
-    { name: 'Kiran', domain: 'Testing' },
-    { name: 'Swapanith', domain: 'BA' },
-    { name: 'Ranadeep', domain: 'Devops' },
-    { name: 'Lakshmi', domain: 'Admin' },
+    'Frontend', 'Backend', 'DATA BASE', 'Front End/ database', 'Backend-NodeJs', 'Backend/database',"B A", 'FIGMA',"AWS TEAM"
+    ,"Python","Full-Stack","PYTHON LIVE","PYTHON REC","TESTING"
   ];
 
   filterEmployees = () => {
     const { searchTerm, selectedDomain } = this.state;
-    const filteredEmployees = this.Employees.filter(employee =>
-      (selectedDomain === '' || employee.domain === selectedDomain) &&
-      (searchTerm === '' || employee.name.toLowerCase().includes(searchTerm))
+    const filteredEmployees = this.props.prop.filter(employee =>
+      (selectedDomain === '' || employee.techStack === selectedDomain) &&
+      (searchTerm === '' || employee.employeeName.toLowerCase().includes(searchTerm))
     );
     this.setState({ filterData: filteredEmployees });
   };
@@ -79,8 +72,8 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { searchTerm, activeDropdown, selectedDomain, filterData, selectedEmployees } = this.state;
-
+    const { selectEmp, searchTerm, activeDropdown, selectedDomain, filterData, selectedEmployees } = this.state;
+    const getDataProp = this.props.prop
     return (
       <div className="sidebar">
         <div className="dropdown-container">
@@ -101,6 +94,7 @@ class Sidebar extends Component {
             </ul>
           )}
         </div>
+        
         <br />
         <input 
           type="text" 
@@ -111,13 +105,14 @@ class Sidebar extends Component {
 
         {filterData.length > 0 ? (
           filterData.map((employee, index) => (
-            <h3 
+            <h1 
+            style={{fontSize:"15px"}}
               key={index} 
-              onClick={() => this.handleSelectEmployee(employee.name)}
-              className={selectedEmployees.includes(employee.name) ? 'selected' : ''}
+              onClick={() => this.handleSelectEmployee(employee)}
+              className={selectedEmployees.includes(employee.employeeName) ? 'selected' : ''}
             >
-              {employee.name}
-            </h3>
+              {employee.employeeName}
+            </h1>
           ))
         ) : (
           <p>No employees found</p>

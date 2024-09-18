@@ -68,7 +68,7 @@ class TaskDashboard extends Component {
 
   render() {
     const { name, email, selectedDate, tasks, getData } = this.state;
-    console.log(getData)
+    console.log(getData[0])
 
     return (
       <div>
