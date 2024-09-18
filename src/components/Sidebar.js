@@ -29,7 +29,6 @@ class Sidebar extends Component {
   };
 
   handleSelectEmployee = (name2) => {
-    // console.log(name2)
     this.setState((prevState) => {
       const { selectedEmployees } = prevState;
       const isSelected = selectedEmployees.includes(name2.employeeName);
