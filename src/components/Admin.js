@@ -6,12 +6,15 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Sidebar from './Sidebar';
 import './Admin.css';
 import { format } from 'date-fns';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import MyVerticallyCenteredModal from '../PopUpEdit';
+
 
 class Admin extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      modalShow: false,
       getApiData:[],
       name: "",
       newData:[],
@@ -27,21 +30,29 @@ class Admin extends Component {
           gmail: '',
           description: 'Task description',
           files: [],
-          createTime: new Date('2024-09-01T12:00:00'),
-          assignedTime: new Date('2024-09-02T10:00:00'),
-          workCompleteTime: new Date('2024-09-05T16:00:00'),
+          createTime: "",
+          assignedTime: "",
+          workCompleteTime: "",
           employeeComment: 'Employee comment',
           managerComment: 'Manager comment',
           createStatus: '',
           assignedStatus: '',
           workCompleteStatus: '',
-          createStatusTime: null,
-          assignedStatusTime: null,
-          workCompleteStatusTime: null,
+          createStatusTime: "",
+          assignedStatusTime: "",
+          workCompleteStatusTime: "",
         },
       ],
     };
   }
+
+  handleShow = () => {
+    this.setState({ modalShow: true });
+  };
+
+  handleClose = () => {
+    this.setState({ modalShow: false });
+  };
 
   handleSaveChanges = () => {
     this.setState((prevState) => {
@@ -156,9 +167,8 @@ class Admin extends Component {
   
 
   render() {
-    const { newData,name, email, mobileNumber, skills, selectedDate, tasks, isEditing } = this.state;
+    const { newData,name,task, email, mobileNumber, skills, selectedDate, tasks, isEditing } = this.state;
     const {getApiData} = this.state
-    console.log(name)
 
     return (
       <div className="admin-background">
@@ -247,11 +257,10 @@ class Admin extends Component {
                     <thead>
                       <tr>
                         <th>Task</th>
-                        <th>Email</th>
+                        <th>Employee ID</th>
                         <th>Description</th>
                         <th>Files</th>
                         <th>Create Date & Time</th>
-                        <th>Create Status</th>
                         <th>Assigned Date & Time</th>
                         <th>Assigned Status</th>
                         <th>Complete Date & Time</th>
@@ -267,6 +276,11 @@ class Admin extends Component {
                             <Button onClick={() => this.removeTask(index)} variant="secondary" className="ml-2">
                               Delete
                             </Button>
+                            <br />
+                            <Button variant="secondary" onClick={this.handleEditClick} className="ml-2">
+                            Edit
+                            </Button>
+                            <br />
                             {isEditing ? (
                               <Form.Control
                                 type="text"
@@ -274,20 +288,31 @@ class Admin extends Component {
                                 onChange={(e) => this.handleInputChange(e, index, 'task')}
                               />
                             ) : (
-                              <a href="#" onClick={() => this.handleTaskClick(task.id)}>
-                                {index + 1}. {"Task: " + task.task}
-                              </a>
+                              // <a  onClick={() => this.handleTaskClick(task.id)}>
+                              //  <Link to="/EditEmployeeTask">  {index + 1}. {"Task: " + task.task}</Link>
+                               
+                              // </a>
+                              <div>
+                              <Button variant="primary" onClick={this.handleShow}>
+                              {index + 1}. {"Task: " + task.task}
+                            </Button>
+                            <MyVerticallyCenteredModal
+                            prop={[name.employeeId,index+1+"  Task" + task.task]}
+                            show={this.state.modalShow}
+                            onHide={this.handleClose}
+                          />
+                          </div>
                             )}
                           </td>
                           <td>
                             {isEditing ? (
                               <Form.Control
                                 type="text"
-                                value={task.gmail}
+                                value={name.employeeId}
                                 onChange={(e) => this.handleInputChange(e, index, 'gmail')}
                               />
                             ) : (
-                              task.gmail
+                              name.employeeId
                             )}
                           </td>
                           <td>
@@ -313,7 +338,6 @@ class Admin extends Component {
                             )}
                           </td>
                           <td>{this.formatDate(task.createTime)}</td>
-                          <td>{task.createStatus}</td>
                           <td>{this.formatDate(task.assignedTime)}</td>
                           <td>{task.assignedStatus}</td>
                           <td>{this.formatDate(task.workCompleteTime)}</td>
@@ -329,9 +353,6 @@ class Admin extends Component {
                       Save Changes
                     </Button>
                   )}
-                  <Button variant="secondary" onClick={this.handleEditClick} className="ml-2">
-                    Edit
-                  </Button>
                   <Button variant="success" onClick={this.handleAddTask} className="mb-3">
                     Add Task
                   </Button>

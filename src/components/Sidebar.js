@@ -47,8 +47,7 @@ class Sidebar extends Component {
     });
   };
   domains = [
-    'Frontend', 'Backend', 'DATA BASE', 'Front End/ database', 'Backend-NodeJs', 'Backend/database',"B A", 'FIGMA',"AWS TEAM"
-    ,"Python","Full-Stack","PYTHON LIVE","PYTHON REC","TESTING"
+    "FULL STACK",'FRONTEND',"BACKEND","DATA BASE","BUSINESS ANALYST","Dev Ops","DATA SCIENCE","TESTING","FIGMA"
   ];
 
   filterEmployees = () => {
