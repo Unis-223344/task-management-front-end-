@@ -68,10 +68,10 @@ class MyVerticallyCenteredModal extends React.Component {
         this.setState({selectedCreateDate: new Date().toLocaleString()})
     };
  
-    handleDateChange = (type, event) => {
-        const indianDate = new Date(event.target.value).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-        this.setState({ [type]: indianDate });
-    }
+    // handleDateChange = (type, event) => {
+    //     const indianDate = new Date(event.target.value).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+    //     this.setState({ [type]: indianDate });
+    // }
   render() {
     const {
         isVisible,
@@ -109,7 +109,7 @@ class MyVerticallyCenteredModal extends React.Component {
                                 type="text"
                                 id="task"
                                 className='input0011'
-                                value={this.props.prop[1]}
+                                value={"Task Number"}
                                 onChange={(e) => this.setState({ task: e.target.value })}
                                 disabled={true} // Always disabled
                             />
@@ -153,8 +153,7 @@ class MyVerticallyCenteredModal extends React.Component {
                             <input
                             className='input00988911'
                                 type="datetime-local"
-                                value={selectedCreateDate ? new Date(selectedCreateDate).toISOString().slice(0, 16) : ''}
-                                onChange={(e) => this.handleDateChange('selectedCreateDate', e)}
+                                value={selectedCreateDate}
                                 disabled={true} // Always disabled
                             />
                         </div>
