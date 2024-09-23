@@ -2,26 +2,23 @@ import React,{Component} from 'react'
 import { Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import './index.css'
+import EmployeeTaskDashboard from '../components/EmployeeTaskDashboard';
 
 class LoginForm extends Component {
-  state = {
+  constructor(props) {
+    super(props);
+  this.state = {
     email: '',
     password: '',
+    sendGmail:""
   }
+}
 
   submitForm = async (e)=>{
     e.preventDefault()
     const {email, password} = this.state
     const userDetails = {"gmail":email, "employeePassWord":password}
     const url = "http://localhost:4000/employeesLoginPost"
-    const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-        },
-        body: JSON.stringify(userDetails),
-    }
     const response = await fetch(url,{
         method: 'POST',
         headers: {
@@ -34,6 +31,8 @@ class LoginForm extends Component {
 
     if(response.status === 200){
         this.setState({sucess:true})
+        this.setState({sendGmail:data.gmail})
+        localStorage.setItem("Emp Gmail", data.gmail)
         Cookies.set("Task_Secret_Token", data.jwtToken, {expires:10})
     }
 
@@ -47,42 +46,6 @@ class LoginForm extends Component {
     this.setState({password: event.target.value})
   }
 
-//   renderPasswordField = () => {
-//     const {password} = this.state
-//     return (
-//       <>
-//         <label className="input-label" htmlFor="password">
-//           PASSWORD
-//         </label>
-//         <input
-//           type="password"
-//           id="password"
-//           className="password-input-filed"
-//           value={password}
-//           onChange={this.onChangePassword}
-//         />
-//       </>
-//     )
-//   }
-
-//   renderUsernameField = () => {
-//     const {email} = this.state
-//     return (
-//       <>
-//         <label className="input-label" htmlFor="username">
-//           Email
-//         </label>
-//         <input
-//           type="text"
-//           id="username"
-//           className="username-input-filed"
-//           value={email}
-//           onChange={this.onChangeGmail}
-//         />
-//       </>
-//     )
-//   }
-
   render() {
     const {email,password} =this.state
     const jwtToken = Cookies.get('Task_Secret_Token')
@@ -91,11 +54,6 @@ class LoginForm extends Component {
     }
     return (
       <div className="login-form-container">
-        {/* <img
-          src="https://i.ibb.co/qJ6GCND/unis.png"
-          className="login-website-logo-mobile-image"
-          alt="website logo"
-        /> */}
         <img
           src="https://i.ibb.co/qJ6GCND/unis.png"
           className="login-image"

@@ -1,0 +1,103 @@
+/* Modal Header */
+.modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Modal Title */
+#contained-modal-title-vcenter {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #343a40;
+}
+
+/* Modal Body */
+.modal-body {
+    background-color: #ffffff;
+    padding: 20px;
+}
+
+/* Resizable Window */
+.resizable-window0123 {
+    width: 100%;
+}
+
+/* Container */
+.container02 {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Form Group Styles */
+.form-group0323, .form-group0423, .form-group0523, 
+.form-group0623, .form-group0723, .form-group0823,
+.form-group0923, .form-group1023, .form-group1223, 
+.form-group1323 {
+    margin-bottom: 15px;
+}
+
+/* Specific Labels */
+.form-group0323 label,
+.form-group0423 label,
+.form-group0523 label,
+.form-group0623 label,
+.form-group0723 label,
+.form-group0823 label,
+.form-group0923 label,
+.form-group1023 label,
+.form-group1223 label,
+.form-group1323 label {
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Text Inputs and Textarea Styles */
+.form-group0323 input[type="text"],
+.form-group0523 textarea,
+.form-group0923 input[type="text"],
+.form-group1223 textarea,
+.form-group1323 textarea,
+.form-group0723 input[type="datetime-local"],
+.form-group0823 input[type="datetime-local"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* File Input */
+.form-group0623 input[type="file"] {
+    border: none;
+}
+
+/* Submit Button */
+.submit-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}
+
+/* Modal Footer */
+.modal-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+}
+
+/* Selected File Text */
+.file-info {
+    margin-top: 10px;
+    display: block;
+    font-size: 14px;
+    color: #6c757d;
+}

@@ -25,26 +25,18 @@ class MyVerticallyCenteredModal extends React.Component {
         };
     }
 
-    postApiTask = async ()=>{
+    postUpdateApiTask = async ()=>{
         const postData = {
-            taskNumber1: this.props.prop[1],
-            employeeId1: this.props.prop[0],
-            taskDiscription1: this.state.description,
-            pdfFile1: this.state.attachment,
-            taskCreateTime1: this.state.selectedCreateDate,
-            taskAssignedTime1: this.state.selectedAssignedDate,
-            assignedStatus1: this.state.assignedStatus,
-            completeDateTime1: this.state.selectedWorkCompleteDate,
-            completeStatus1: this.state.completeStatus,
-            employeeComment1: this.state.employeeComment,
-            managerComment1: this.state.managerComment
+            "taskNum":this.props.prop[1],
+            "taskDiscription1":this.state.description,
+            "pdfFile1":this.state.attachment,
+            "managerComment1":this.state.managerComment
         }
-        console.log(postData)
         // api call here
 
-        const url = "http://localhost:4000/taskAssignPost"
+        const url = "http://localhost:4000/updateTaskAssigned2"
     const options = {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
@@ -53,9 +45,8 @@ class MyVerticallyCenteredModal extends React.Component {
     }
     const response = await fetch(url,options)
     const data = await response.json()
-    console.log(response)
     if (response.status === 201) {
-        alert("Task added successfully")
+        alert("Task Updated successfully")
     }
   }
  
@@ -109,7 +100,7 @@ class MyVerticallyCenteredModal extends React.Component {
                                 type="text"
                                 id="task"
                                 className='input0011'
-                                value={"Task Number"}
+                                value={this.props.prop[1]}
                                 onChange={(e) => this.setState({ task: e.target.value })}
                                 disabled={true} // Always disabled
                             />
@@ -215,7 +206,7 @@ class MyVerticallyCenteredModal extends React.Component {
             
         </Modal.Body>
         <Modal.Footer>
-        <Button onClick={this.postApiTask}>Submit</Button>
+        <Button onClick={this.postUpdateApiTask}>Submit</Button>
           <Button onClick={this.props.onHide}>Close</Button>
         </Modal.Footer>
       </Modal>

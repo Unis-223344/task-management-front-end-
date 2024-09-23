@@ -12,11 +12,10 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route exact path="/login" element={<LoginForm />} />
-      <Route exact path='/' element={<DashBoard />} />
       {/* <Route exact path='/EditEmployeeTask' element={<ResizableWindow />} /> */}
     
       <Route path="/admin" element={<Admin />} />
-      <Route path="/employee" element={<EmployeeTaskDashboard />} />
+      <Route path="/" element={<EmployeeTaskDashboard />} />
 
     </Routes>
     </BrowserRouter>
