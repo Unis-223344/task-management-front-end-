@@ -47,7 +47,7 @@ class TaskPostApiPopUp extends React.Component {
             employeeComment1: this.state.employeeComment,
             managerComment1: this.state.managerComment
         }
-        const url = "http://localhost:4000/taskAssignPost"
+        const url = "https://task-management-backend-4.onrender.com/taskAssignPost"
     const options = {
         method: 'POST',
         headers: {

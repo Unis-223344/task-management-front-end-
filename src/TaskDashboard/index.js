@@ -36,7 +36,7 @@ class TaskDashboard extends Component {
   }
 
   getTasksData = async ()=>{
-    const url = "http://localhost:4000/tasksData"
+    const url = "https://task-management-backend-4.onrender.com/tasksData"
     const jwtToken = Cookies.get('Task_Secret_Token')
     const response = await fetch(url,{
         method:"GET",

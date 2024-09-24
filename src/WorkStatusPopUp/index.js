@@ -13,7 +13,7 @@ class CompleteWorkStatus extends React.Component {
 
 
     taskStatusUpdate = async (idProp) =>{
-        const url = "http://localhost:4000/updateCreateStatus"
+        const url = "https://task-management-backend-4.onrender.com/updateCreateStatus"
         const bodyData = {
             "taskId2":idProp,
             "completedTime2": new Date().toLocaleString(),

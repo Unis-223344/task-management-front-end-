@@ -142,7 +142,7 @@ class Admin extends Component {
           const dataNa = {
             "empId":empName
           }
-          const url = "http://localhost:4000/tasksData"
+          const url = "https://task-management-backend-4.onrender.com/tasksData"
           const getTask = await  fetch(url, {
             method: 'POST',
             headers:{
@@ -163,7 +163,7 @@ class Admin extends Component {
 
   getApiEmployeesData = async ()=>{
     const {getApiData} = this.state
-    const url = "http://localhost:4000/employeeDataAdd"
+    const url = "https://task-management-backend-4.onrender.com/employeeDataAdd"
     const response = await fetch(url,{
       method:"GET"
     })
@@ -172,7 +172,7 @@ class Admin extends Component {
   }
 
   deleteTask = async (taskDeleteId) => {
-    const url = "http://localhost:4000/oneTaskDelete"
+    const url = "https://task-management-backend-4.onrender.com/oneTaskDelete"
     const options = {
       method: 'DELETE',
       headers: {
@@ -194,7 +194,7 @@ class Admin extends Component {
       "taskAssignedTime3": new Date().toLocaleString(),
       "assignedStatus3":"Assinged"
     }
-    const url = "http://localhost:4000/updateTaskAssigned"
+    const url = "https://task-management-backend-4.onrender.com/updateTaskAssigned"
     const getTask = await fetch(url, {
       method: 'PUT',
       headers:{

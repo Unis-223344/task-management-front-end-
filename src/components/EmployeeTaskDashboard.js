@@ -48,7 +48,7 @@ class EmployeeTaskDashboard extends Component {
   }
   
   getEmployeeTasksApi = async (empId)=>{
-    const url = "http://localhost:4000/getEmployeeAllTasks"
+    const url = "https://task-management-backend-4.onrender.com/getEmployeeAllTasks"
     const options = {
       method: 'POST',
       headers: {
@@ -66,7 +66,7 @@ class EmployeeTaskDashboard extends Component {
 
   getEmployeeDetailsApi = async ()=>{
     const getGmailLo = localStorage.getItem("Emp Gmail")
-    const url = "http://localhost:4000/EmployeeDetails"
+    const url = "https://task-management-backend-4.onrender.com/EmployeeDetails"
     const options = {
       method: 'POST',
       headers: {

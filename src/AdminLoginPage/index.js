@@ -18,7 +18,7 @@ class AdminLoginForm extends Component {
     e.preventDefault()
     const {name2, password3} = this.state
     const userDetails = {"name":name2, "passWord2":password3}
-    const url = "http://localhost:4000/superAdminLogin"
+    const url = "https://task-management-backend-4.onrender.com/superAdminLogin"
     const response = await fetch(url,{
         method: 'POST',
         headers: {
