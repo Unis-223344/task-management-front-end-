@@ -5,11 +5,15 @@ import './EmployeeTaskDashboard.css';
 import { format } from 'date-fns';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import CompleteWorkStatus from '../WorkStatusPopUp';
 
 class EmployeeTaskDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      btnHide:false,
+      completeStatusModalShow: false,
+      allTasksData:[],
       employeeData:[],
       name: '',
       email: '',
@@ -35,8 +39,29 @@ class EmployeeTaskDashboard extends Component {
     };
   }
 
+  submitTaskApi = async () =>{
+    this.setState({ completeStatusModalShow: true })
+  }
+
   componentDidMount() {
     this.getEmployeeDetailsApi();
+  }
+  
+  getEmployeeTasksApi = async (empId)=>{
+    const url = "http://localhost:4000/getEmployeeAllTasks"
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({ "emplId": empId }),
+    }
+    const response = await fetch(url,options)
+    const data2 = await response.json()
+    if (response.status === 201){
+      this.setState({allTasksData:data2})
+    }
   }
 
   getEmployeeDetailsApi = async ()=>{
@@ -54,31 +79,11 @@ class EmployeeTaskDashboard extends Component {
     const data = await response.json()
     if (response.status === 201){
       this.setState({employeeData:data})
+      this.getEmployeeTasksApi(data.employeeId)
     }
   }
 
-  postEmployeeDetails = async (gmailId2) =>{
-    const {mobileNumber, skills } = this.state;
-    const url = "http://localhost:4000/EmployeeDetailsUpdate"
-    const bodyData = {
-      "email":gmailId2,
-    "mobileNumber1": mobileNumber,
-    "skillSet2": skills
-    }
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify(bodyData),
-    }
-    const response = await fetch(url,options)
-    const data = await response.json()
-    if (response.status === 201){
-      alert("Employee details updated successfully")
-    }
-  }
+ 
 
   handleSaveChanges = () => {
     this.setState({ isEditing: false });
@@ -122,6 +127,7 @@ class EmployeeTaskDashboard extends Component {
 
   render() {
     const { name, email, mobileNumber, skills, tasks, isEditing , employeeData} = this.state;
+    const { allTasksData } = this.state
     const jwtToken = Cookies.get('Task_Secret_Token');
     if (!jwtToken) {
       return <Navigate to="/login" />;
@@ -165,67 +171,60 @@ class EmployeeTaskDashboard extends Component {
                 </Col>
                 <Col md={6}>
                   <Form.Group controlId="skills">
-                    <Form.Label>Skills: </Form.Label>
+                    <Form.Label>Designation : </Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Enter Skills"
-                      value={employeeData.skillSet}
+                      value={employeeData.techStack}
                       onChange={(e) => this.setState({ skills: e.target.value })}
                     />
                   </Form.Group>
                 </Col>
               </Row>
 
-              <Button variant="primary" onClick={() => this.postEmployeeDetails(employeeData.gmailId)}> Submit </Button>
-
               <Row>
                 <Col>
                   <Table striped bordered hover>
                     <thead>
                       <tr>
-                        <th>Task</th>
-                        <th>Domain</th>
+                        <th>Task Number</th>
+                        <th>Employee ID</th>
                         <th>Description</th>
                         <th>Files</th>
                         <th>Created Time & Date</th>
                         <th>Assigned Time & Date</th>
-                        <th>Work Complete Time & Date</th>
+                        <th>Assigned Status</th>
+                        <th>Complete Date & Time</th>
+                        <th>Complete Status</th>
                         <th>Employee Comment</th>
                         <th>Manager Comment</th>
-                        <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {tasks.map((task, index) => (
-                        <tr key={task.id}>
-                          <td>{task.task}</td>
-                          <td>{task.domainName}</td>
-                          <td>{task.description}</td>
-                          <td>{task.files.join(', ')}</td>
-                          <td>{this.formatDate(task.createTime)}</td>
-                          <td>{this.formatDate(task.assignedTime)}</td>
-                          <td>{this.formatDate(task.workCompleteTime)}</td>
+                      {allTasksData.map((task) => (
+                        <tr key={task.taskNumber}>
+                          <td>{task.taskNumber.slice(30,36)}</td>
+                          <td>{task.employeeId}</td>
+                          <td>{task.taskDiscription}</td>
+                          <td>{task.pdfFile}</td>
+                          <td>{task.taskCreateTime}</td>
+                          <td>{task.taskAssignedTime}</td>
+                          <td>{task.assignedStatus}</td>
                           <td>
-                            {isEditing ? (
-                              <Form.Control
-                                type="text"
-                                value={task.employeeComment}
-                                onChange={(e) => this.handleInputChange(e, index, 'employeeComment')}
-                              />
-                            ) : (
-                              task.employeeComment
-                            )}
-                          </td>
-                          <td>{task.managerComment}</td>
-                          <td>
-                            <Button
-                              variant="success"
-                              onClick={() => this.handleMarkAsDone(index)}
-                              disabled={task.isDone}
-                            >
-                              Mark as Done
+                          {task.completeDateTime === "" ? <div><Button variant="primary" 
+                              onClick={() => this.submitTaskApi()}>
+                              Completed
                             </Button>
+                            <CompleteWorkStatus
+                            addProp={task.taskNumber}
+          show={this.state.completeStatusModalShow}
+          onHide={() => this.setState({ completeStatusModalShow: false })}
+        /> </div>  : task.completeDateTime}
+                            
                           </td>
+                          <td>{task.completeStatus}</td>
+                          <td>{task.employeeComment}</td>
+                          <td>{task.managerComment}</td>
                         </tr>
                       ))}
                     </tbody>
