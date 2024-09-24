@@ -61,13 +61,14 @@ class TaskPostApiPopUp extends React.Component {
     console.log(response)
     if (response.status === 201) {
         alert("Task added successfully")
+        console.log(this.state.attachment)
     }
     };
  
     handleFileChange = (event) => {
         const file = event.target.files[0];
         this.setState({
-            attachment: file?.name || '',
+            attachment: file.name || '',
             attachmentFormat: file?.type || ''
         });
     };

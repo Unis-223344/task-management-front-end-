@@ -125,6 +125,10 @@ class EmployeeTaskDashboard extends Component {
     }
   };
 
+  handleDownload = (pdf) => {
+    window.open(`http://localhost:5000/download/${pdf}`, '_blank');
+};
+
   render() {
     const { name, email, mobileNumber, skills, tasks, isEditing , employeeData} = this.state;
     const { allTasksData } = this.state
@@ -206,7 +210,10 @@ class EmployeeTaskDashboard extends Component {
                           <td>{task.taskNumber.slice(30,36)}</td>
                           <td>{task.employeeId}</td>
                           <td>{task.taskDiscription}</td>
-                          <td>{task.pdfFile}</td>
+                          <td>
+                <button onClick={ () =>this.handleDownload(task.pdfFile)}>Download</button>
+
+                          </td>
                           <td>{task.taskCreateTime}</td>
                           <td>{task.taskAssignedTime}</td>
                           <td>{task.assignedStatus}</td>

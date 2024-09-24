@@ -53,7 +53,7 @@ class MyVerticallyCenteredModal extends React.Component {
     handleFileChange = (event) => {
         const file = event.target.files[0];
         this.setState({
-            attachment: file?.name || '',
+            attachment: file || '',
             attachmentFormat: file?.type || ''
         });
         this.setState({selectedCreateDate: new Date().toLocaleString()})

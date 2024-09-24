@@ -6,9 +6,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Sidebar from './Sidebar';
 import './Admin.css';
 import { format } from 'date-fns';
-import { Link, withRouter } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import MyVerticallyCenteredModal from '../PopUpEdit';
 import TaskPostApiPopUp from '../TaskPostPopUP';
+import Cookies from 'js-cookie';
 
 
 class Admin extends Component {
@@ -208,9 +209,18 @@ class Admin extends Component {
   }
   
 
+  removeAdminToken = () =>{
+    const token = Cookies.remove("Admin_Secret_Token")
+    this.props.navigate('/Admin-Login')
+  }
+
   render() {
     const {empName, empTasksData, newData,name,task, email, mobileNumber, skills, selectedDate, tasks, isEditing } = this.state;
     const {getApiData, taskNumTooEdit, updateDescription, updateMangerComments} = this.state
+    const token = Cookies.get("Admin_Secret_Token")
+    if (!token) {
+      return <Navigate to="/Admin-Login" />;
+    }
     return (
       <div className="admin-background">
         <Container fluid>
@@ -223,7 +233,7 @@ class Admin extends Component {
               <div className="header">
                 <h1 className="head001">Admin Dashboard</h1>
 
-                <Button variant="danger" className="logout-btn">
+                <Button variant="danger" className="logout-btn" onClick={this.removeAdminToken}>
                   Logout
                 </Button>
               </div>
@@ -379,5 +389,11 @@ class Admin extends Component {
   }
 }
 
-export default Admin
+
+const AdminTaskDashboardWrapper = () => {
+  const navigate = useNavigate();
+  return <Admin navigate={navigate} />;
+};
+
+export default AdminTaskDashboardWrapper ;
 
