@@ -11,6 +11,7 @@ class EmployeeTaskDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      addSta:"",
       btnHide:false,
       completeStatusModalShow: false,
       allTasksData:[],
@@ -48,7 +49,7 @@ class EmployeeTaskDashboard extends Component {
   }
   
   getEmployeeTasksApi = async (empId)=>{
-    const url = "https://task-management-backend-4.onrender.com/getEmployeeAllTasks"
+    const url = "http://localhost:4000/getEmployeeAllTasks"
     const options = {
       method: 'POST',
       headers: {
@@ -65,8 +66,8 @@ class EmployeeTaskDashboard extends Component {
   }
 
   getEmployeeDetailsApi = async ()=>{
-    const getGmailLo = localStorage.getItem("Emp Gmail")
-    const url = "https://task-management-backend-4.onrender.com/EmployeeDetails"
+    const getGmailLo = localStorage.getItem("Employee Gmail")
+    const url = "http://localhost:4000/EmployeeDetails"
     const options = {
       method: 'POST',
       headers: {
@@ -80,6 +81,7 @@ class EmployeeTaskDashboard extends Component {
     if (response.status === 201){
       this.setState({employeeData:data})
       this.getEmployeeTasksApi(data.employeeId)
+      this.setState({addSta: data.employeeId})
     }
   }
 
@@ -236,17 +238,6 @@ class EmployeeTaskDashboard extends Component {
                       ))}
                     </tbody>
                   </Table>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col className="text-right">
-                  <Button variant="success" onClick={this.handleSaveChanges}>
-                    Save Changes
-                  </Button>
-                  <Button variant="warning" className="ml-2" onClick={this.handleEditClick}>
-                    Edit
-                  </Button>
                 </Col>
               </Row>
             </Col>

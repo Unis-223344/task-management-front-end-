@@ -28,7 +28,7 @@ class Sidebar extends Component {
     this.setState({ selectedDomain: title, activeDropdown: null }, this.filterEmployees);
   };
 
-  handleSelectEmployee = (name2) => {
+  handleSelectEmployee = (name2,name3) => {
     this.setState((prevState) => {
       const { selectedEmployees } = prevState;
       const isSelected = selectedEmployees.includes(name2.employeeName);
@@ -37,11 +37,11 @@ class Sidebar extends Component {
         ? selectedEmployees.filter((employee) => employee !== name2.employeeName)
         : [...selectedEmployees, name2.employeeName]
       const employeeSelectedData = this.props.prop.filter(char =>(
-        char.employeeName === updatedSelectedEmployees[0]
+        char.employeeName === name3
       ))
       this.setState({ selectEmp: employeeSelectedData})
 
-      this.props.onSelectEmployee(updatedSelectedEmployees);
+      this.props.onSelectEmployee(name3);
       
       return { selectedEmployees: updatedSelectedEmployees };
     });
@@ -73,13 +73,13 @@ class Sidebar extends Component {
     const { selectEmp, searchTerm, activeDropdown, selectedDomain, filterData, selectedEmployees } = this.state;
     const getDataProp = this.props.prop
     return (
-      <div className="sidebar">
-        <div className="dropdown-container">
-          <button className="dropdown-btn" onClick={() => this.toggleDropdown(0)}>
+      <div className="sidebar22">
+        <div className="dropdown-container22">
+          <button className="dropdown-btn22" onClick={() => this.toggleDropdown(0)}>
             {selectedDomain || 'Select a domain'}
           </button>
           {activeDropdown === 0 && (
-            <ul className="dropdown-content">
+            <ul className="dropdown-content22">
               {this.domains.map((domain, index) => (
                 <li 
                   key={index} 
@@ -95,6 +95,7 @@ class Sidebar extends Component {
         
         <br />
         <input 
+          className='search-bar22'
           type="text" 
           placeholder="Search by employee name"
           value={searchTerm}
@@ -106,14 +107,14 @@ class Sidebar extends Component {
             <h1 
             style={{fontSize:"15px"}}
               key={index} 
-              onClick={() => this.handleSelectEmployee(employee)}
+              onClick={() => this.handleSelectEmployee(employee,employee.employeeName)}
               className={selectedEmployees.includes(employee.employeeName) ? 'selected' : ''}
             >
               {employee.employeeName}
             </h1>
           ))
         ) : (
-          <p>No employees found</p>
+          <p className='noEmployee22'>No employees found</p>
         )}
       </div>
     );

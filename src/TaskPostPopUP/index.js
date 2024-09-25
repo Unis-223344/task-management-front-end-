@@ -47,22 +47,27 @@ class TaskPostApiPopUp extends React.Component {
             employeeComment1: this.state.employeeComment,
             managerComment1: this.state.managerComment
         }
-        const url = "https://task-management-backend-4.onrender.com/taskAssignPost"
-    const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-        },
-        body: JSON.stringify(postData),
-    }
-    const response = await fetch(url,options)
-    const data = await response.json()
-    console.log(response)
-    if (response.status === 201) {
-        alert("Task added successfully")
-        console.log(this.state.attachment)
-    }
+
+        if(this.state.description !== "" && this.attachment !== ""){
+            const url = "http://localhost:4000/taskAssignPost"
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                Accept: 'application/json',
+                },
+                body: JSON.stringify(postData),
+            }
+            const response = await fetch(url,options)
+            const data = await response.json()
+            if (response.status === 201) {
+                alert("Task added successfully")
+                this.setState({description: ""})
+                this.setState({attachment:""})
+            }
+        }else{
+            alert("Description and Attachment are required fields")
+        }
     };
  
     handleFileChange = (event) => {

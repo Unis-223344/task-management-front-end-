@@ -34,7 +34,7 @@ class MyVerticallyCenteredModal extends React.Component {
         }
         // api call here
 
-        const url = "https://task-management-backend-4.onrender.com/updateTaskAssigned2"
+        const url = "http://localhost:4000/updateTaskAssigned2"
     const options = {
         method: 'PUT',
         headers: {

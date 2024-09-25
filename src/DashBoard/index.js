@@ -45,7 +45,7 @@ class DashBoard extends Component {
         "employeeComment1":employeeComment,
         "managerComment1":managerComment
     }
-    const url = "https://task-management-backend-4.onrender.com/taskPost"
+    const url = "http://localhost:4000/taskPost"
     const jwtToken = Cookies.get('Task_Secret_Token');
     const options = {
         method: 'POST',
@@ -129,76 +129,32 @@ class DashBoard extends Component {
     }
     return (
         <div className='centerItems'>
-
-      {/* <div className="sidebar">
-        <div className="dropdown-container">
-          <select
-            className="dropdown-select"
-            value={selectedDomain}
-            onChange={this.handleSelectDomain}
-          >
-            <option value="">Select a domain</option>
-            {filteredDomains.length > 0 ? (
-              filteredDomains.map((domain, index) => (
-                <option key={index} value={domain.title}>
-                  {domain.title}
-                </option>
-              ))
-            ) : (
-              <option disabled>No domains found</option>
-            )}
-          </select>
-        </div>
-        <br />
-        <input
-          type="text"
-          placeholder="Search by employee name"
-          value={searchTerm}
-          onChange={this.handleSearchChange}
-        />
-
-        {filterData.length > 0 ? (
-          filterData.map((char, index) => (
-            <h3 key={index}>{char.name}</h3>
-          ))
-        ) : (
-          <p>No employees found</p>
-        )}
-      </div> */}
-
         <div>
             <form className="form-container" onSubmit={this.onSubmitForm} >
             <h1 className='adminDash'>Admin DashBoard</h1>
             <div>
         <label htmlFor="domain-dropdown">Select a Domain:</label>
         <select
+          className='selectDomain'
           id="domain-dropdown"
           value={this.state.selectedDomain}
           onChange={this.handleChange}
         >
-          <option value="" disabled>Select a domain</option>
+          <option className='optionDomain' value="" disabled>Select a domain</option>
           {domains.map((domain, index) => (
-            <option key={index} value={domain.title}>
+            <option className='optionDomain3' key={index} value={domain.title}>
               {domain.title}
             </option>
           ))}
         </select>
-        <p>Selected Domain: {this.state.selectedDomain}</p>
+        <p className='domainSelect'>Selected Domain: {this.state.selectedDomain}</p>
       </div>
 
-            <p> Task Number : <input type='text' onChange={this.onChangeTaskNumber} /> </p>
-            <p> Task Discription : <input type='text' onChange={this.onChangeTaskPara} /> </p>
-            <p> File : <input type="file" onChange={this.onChangePdfFile} /> </p>
-            {/* <button>Create Date & Time</button> */}
-            {/* <br />
-            <button>Assigned Date & Time</button> */}
-            {/* <br />
-            <button>Work Complete Date & Time</button> */}
-            {/* <br /> */}
-            {/* <p> Employee Comment : <input type="text" /> </p> */}
-            {/* <p> Manager Comment : <input type="text" /> </p> */}
+            <p className='taskNumber44 '> Task Number : <input type='text' onChange={this.onChangeTaskNumber} /> </p>
+            <p className='taskDiscription44'> Task Discription : <input type='text' onChange={this.onChangeTaskPara} /> </p>
+            <p className='taskFile44'> File : <input type="file" onChange={this.onChangePdfFile} /> </p>
             <br />
-            <button type='submit'>Save Task</button>
+            <button className='saveTask44' type='submit'>Save Task</button>
             </form>
         </div>
 

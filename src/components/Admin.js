@@ -10,6 +10,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import MyVerticallyCenteredModal from '../PopUpEdit';
 import TaskPostApiPopUp from '../TaskPostPopUP';
 import Cookies from 'js-cookie';
+import { IoMdAddCircleOutline } from "react-icons/io";
 
 
 class Admin extends Component {
@@ -77,13 +78,9 @@ class Admin extends Component {
     this.setState({ modalShow: false });
   };
 
-  handleSaveChanges = () => {
-    alert('Changes saved!');
-  };
-
-  handleSelectEmployee = (name2) => {
+  handleSelectEmployee = (name3) => {
     const {name,getApiData} = this.state
-    const a = getApiData.filter(c => c.employeeName === name2[0])
+    const a = getApiData.filter(c => c.employeeName === name3)
     this.setState({name:a[0]})
     this.setState({empName:a[0].employeeId})
   };
@@ -142,7 +139,7 @@ class Admin extends Component {
           const dataNa = {
             "empId":empName
           }
-          const url = "https://task-management-backend-4.onrender.com/tasksData"
+          const url = "http://localhost:4000/tasksData"
           const getTask = await  fetch(url, {
             method: 'POST',
             headers:{
@@ -163,7 +160,7 @@ class Admin extends Component {
 
   getApiEmployeesData = async ()=>{
     const {getApiData} = this.state
-    const url = "https://task-management-backend-4.onrender.com/employeeDataAdd"
+    const url = "http://localhost:4000/employeeDataAdd"
     const response = await fetch(url,{
       method:"GET"
     })
@@ -172,7 +169,7 @@ class Admin extends Component {
   }
 
   deleteTask = async (taskDeleteId) => {
-    const url = "https://task-management-backend-4.onrender.com/oneTaskDelete"
+    const url = "http://localhost:4000/oneTaskDelete"
     const options = {
       method: 'DELETE',
       headers: {
@@ -194,7 +191,7 @@ class Admin extends Component {
       "taskAssignedTime3": new Date().toLocaleString(),
       "assignedStatus3":"Assinged"
     }
-    const url = "https://task-management-backend-4.onrender.com/updateTaskAssigned"
+    const url = "http://localhost:4000/updateTaskAssigned"
     const getTask = await fetch(url, {
       method: 'PUT',
       headers:{
@@ -241,14 +238,15 @@ class Admin extends Component {
               <Row className="mb-3">
                 <Col md={6}>
                   <Form.Group controlId="name">
-                    <Form.Label>Name: </Form.Label>
-                    <Form.Control type="text" placeholder="Enter Name" value={name.employeeName} readOnly />
+                    <Form.Label className='name55'>Name: </Form.Label>
+                    <Form.Control className='name5533' type="text" placeholder="Enter Name" value={name.employeeName} readOnly />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
-                  <Form.Group controlId="email">
-                    <Form.Label>Email: </Form.Label>
+                  <Form.Group className='email55' controlId="email">
+                    <Form.Label className='email66'>Email: </Form.Label>
                     <Form.Control
+                     className='inputEmail55'
                       type="email"
                       placeholder="Enter Email"
                       value={name.gmailId}
@@ -257,9 +255,10 @@ class Admin extends Component {
                   </Form.Group>
                 </Col>
                 <Col md={6}>
-                  <Form.Group controlId="mobileNumber">
+                  <Form.Group className='mobile55' controlId="mobileNumber">
                     <Form.Label>Mobile Number: </Form.Label>
                     <Form.Control
+                    className='mobile5566'
                       type="text"
                       placeholder="Enter Mobile Number"
                       value={mobileNumber}
@@ -268,36 +267,14 @@ class Admin extends Component {
                   </Form.Group>
                 </Col>
                 <Col md={6}>
-                  <Form.Group controlId="skills">
-                    <Form.Label>Skills: </Form.Label>
+                  <Form.Group className='skills55' controlId="skills">
+                    <Form.Label>Designation: </Form.Label>
                     <Form.Control
+                    className='skills5566'
                       type="text"
                       placeholder="Enter Skills"
-                      value={skills}
+                      value={name.techStack}
                       onChange={(e) => this.setState({ skills: e.target.value })}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={6}>
-                  <Button variant="info" onClick={this.handleTeamsClick}>
-                    Teams
-                  </Button>
-                </Col>
-              </Row>
-
-              {/* {getApiData.map(char=>(
-          <h1>{char.employeeName}</h1>
-        ))} */}
-
-              <Row className="mb-3">
-                <Col>
-                  <Form.Group>
-                    <Form.Label>Date:</Form.Label>
-                    <DatePicker
-                      selected={selectedDate}
-                      onChange={(date) => this.setState({ selectedDate: date })}
-                      dateFormat="dd-MM-yyyy"
-                      className="form-control"
                     />
                   </Form.Group>
                 </Col>
@@ -306,32 +283,32 @@ class Admin extends Component {
               <Row>
                 <Col>
                   <Table striped bordered hover>
-                    <thead>
-                      <tr>
-                        <th>Task</th>
-                        <th>Employee ID</th>
-                        <th>Description</th>
-                        <th>Files</th>
-                        <th>Create Date & Time</th>
-                        <th>Assigned Date & Time</th>
-                        <th>Assigned Status</th>
-                        <th>Complete Date & Time</th>
-                        <th>Complete Status</th>
-                        <th>Employee Comment</th>
-                        <th>Manager Comment</th>
-                        <th>Delete Task</th>
+                    <thead className='thead-dark55'>
+                      <tr className='thead-dark5566'>
+                        <th className='task5566'>Task</th>
+                        <th className='task5566'>Employee ID</th>
+                        <th className='task5566'>Description</th>
+                        <th className='task5566'>Files</th>
+                        <th className='task5566'>Create Date & Time</th>
+                        <th className='task5566'>Assigned Date & Time</th>
+                        <th className='task5566'>Assigned Status</th>
+                        <th className='task5566'>Complete Date & Time</th>
+                        <th className='task5566'>Complete Status</th>
+                        <th className='task5566'>Employee Comment</th>
+                        <th className='task5566'>Manager Comment</th>
+                        <th className='task5566'>Delete Task</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className='thredtask54'>
                       {empTasksData.map((task) => (
-                        <tr key={task.taskNumber}>
-                          <td>
+                        <tr className='thredtask5455' key={task.taskNumber}>
+                          <td className='thredtask5466'>
                             <br />
                               <div>
-                              <Button variant="primary" 
+                              <a className='addLink' 
                               onClick={() => this.handleShow(task.taskNumber,task.taskDiscription,task.managerComment)}>
-                              Task 
-                            </Button>
+                              {task.taskNumber.slice(30,36)}
+                            </a>
                             <MyVerticallyCenteredModal
                             prop={[name.employeeId, taskNumTooEdit, updateDescription, updateMangerComments]}
                             show={this.state.modalShow}
@@ -339,27 +316,26 @@ class Admin extends Component {
                           />
                           </div>
                           </td>
-                          <td>
+                          <td className='thredtask5466'>
                               {name.employeeId}
                           </td>
-                          <td>
+                          <td className='thredtask5466'>
                               {task.taskDiscription}
                           </td>
-                          <td>
+                          <td className='thredtask5466'>
                               {task.pdfFile}
                           </td>
-                          <td>{task.taskCreateTime}</td>
-                          <td>
-                          <Button variant="primary" onClick={() => this.assignTask(task.taskNumber)}>
-                              Assign Task
-                            </Button>
-                            {task.taskAssignedTime}</td>
-                          <td>{task.assignedStatus}</td>
-                          <td>{task.completeDateTime}</td>
-                          <td>{task.completeStatus}</td>
-                          <td>{task.employeeComment}</td>
-                          <td>{task.managerComment}</td>
-                          <td>
+                          <td className='thredtask5466'>{task.taskCreateTime}</td>
+                          <td className='thredtask5466'>
+                            {task.taskAssignedTime === "" ? <Button variant="primary" onClick={() => this.assignTask(task.taskNumber)}>
+                          <IoMdAddCircleOutline />
+                            </Button> : task.taskAssignedTime}</td>
+                          <td className='thredtask5466'>{task.assignedStatus}</td>
+                          <td className='thredtask5466'>{task.completeDateTime}</td>
+                          <td className='thredtask5466'>{task.completeStatus}</td>
+                          <td className='thredtask5466'>{task.employeeComment}</td>
+                          <td className='thredtask5466'>{task.managerComment}</td>
+                          <td className='thredtask5466'>
                           <Button variant="primary" onClick={() => this.deleteTask(task.taskNumber)}>
                               Delete
                             </Button>
@@ -368,9 +344,6 @@ class Admin extends Component {
                       ))}
                     </tbody>
                   </Table>
-                    <Button variant="primary" onClick={this.handleSaveChanges}>
-                      Save Changes
-                    </Button>
                   <Button variant="success" onClick={this.handleShow2} className="mb-3">
                     Add Task
                   </Button>

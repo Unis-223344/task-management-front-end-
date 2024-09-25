@@ -17,8 +17,8 @@ class AdminLoginForm extends Component {
   submitFormPost = async (e)=>{
     e.preventDefault()
     const {name2, password3} = this.state
-    const userDetails = {"name":name2, "passWord2":password3}
-    const url = "https://task-management-backend-4.onrender.com/superAdminLogin"
+    const userDetails = {"name":name2.trimEnd(), "passWord2":password3.trimEnd()}
+    const url = "http://localhost:4000/superAdminLogin"
     const response = await fetch(url,{
         method: 'POST',
         headers: {
@@ -32,6 +32,11 @@ class AdminLoginForm extends Component {
     if(response.status === 200){
         Cookies.set("Admin_Secret_Token", data.jwtToken, {expires:10})
         this.props.navigate('/admin')
+    }
+
+    if(response.status === 400){
+      alert("Invalid Admin Credentials")
+      this.setState({name2: "", password3: ""})
     }
 
   }

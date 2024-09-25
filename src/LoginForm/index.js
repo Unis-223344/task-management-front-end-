@@ -17,8 +17,8 @@ class LoginForm extends Component {
   submitForm = async (e)=>{
     e.preventDefault()
     const {email, password} = this.state
-    const userDetails = {"gmail":email, "employeePassWord":password}
-    const url = "https://task-management-backend-4.onrender.com/employeesLoginPost"
+    const userDetails = {"gmail":email.trim(), "employeePassWord":password.trimEnd()}
+    const url = "http://localhost:4000/employeesLoginPost"
     const response = await fetch(url,{
         method: 'POST',
         headers: {
@@ -32,8 +32,14 @@ class LoginForm extends Component {
     if(response.status === 200){
         this.setState({sucess:true})
         this.setState({sendGmail:data.gmail})
-        localStorage.setItem("Emp Gmail", data.gmail)
+        localStorage.setItem("Employee Gmail", data.gmail)
         Cookies.set("Task_Secret_Token", data.jwtToken, {expires:10})
+    }
+
+    if(response.status === 400){
+      this.setState({sucess:false})
+       this.setState({email:"", password:""})
+       alert("Incorrect Credentials")
     }
 
   }

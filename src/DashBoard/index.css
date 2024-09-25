@@ -1,13 +1,75 @@
-.centerItems{
-    display: flex;
-    flex-direction: row;
-}
-.sidebar{
-    width: 300px;
-    padding: 30px;
-}
+/* index.css */
 
-.adminDash{
+/* General styles */
+.centerItems {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     margin: 20px;
-}
+  }
+  
+  .form-container {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Dynamic background based on selected domain */
+  .selected-frontend {
+    background-color: #d1e7dd; /* Light green */
+  }
+  
+  .selected-backend {
+    background-color: #f8d7da; /* Light red */
+  }
+  
+  .selected-database {
+    background-color: #fff3cd; /* Light yellow */
+  }
+  
+  /* Animation for form submission */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .fade-in {
+    animation: fadeIn 0.5s ease;
+  }
+  
+  /* Button styles */
+  .saveTask44 {
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .saveTask44:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Input styles */
+  input[type='text'], input[type='file'] {
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: calc(100% - 16px);
+  }
+  
+  /* Domain selection styles */
+  .selectDomain {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
