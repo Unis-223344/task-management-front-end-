@@ -3,11 +3,13 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import "./index.css"
 import { IoCloseSharp } from "react-icons/io5";
+import AdminTaskDashboardWrapper from '../components/Admin';
 
 class TaskPostApiPopUp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            addData:[],
             isVisible: true,
             isEditing: false,
             task: '',
@@ -63,9 +65,10 @@ class TaskPostApiPopUp extends React.Component {
             const data = await response.json()
             if (response.status === 201) {
                 alert("Task added successfully")
-                this.props.onHide2()
+                this.props.onHide2(data)
                 this.setState({description: ""})
                 this.setState({attachment:""})
+                this.setState({addData: data})
             }
         }else{
             alert("Description and Attachment are required fields")
@@ -101,6 +104,7 @@ class TaskPostApiPopUp extends React.Component {
         selectedAssignedDate,
         selectedWorkCompleteDate,
         assignedStatus,
+        addData
     } = this.state;
     return (
       <Modal

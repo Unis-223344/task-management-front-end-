@@ -64,8 +64,9 @@ class Admin extends Component {
     this.setState({ taskPostModalShow: true });
   };
 
-  handleClose2 = () => {
+  handleClose2 = (data2) => {
     this.setState({ taskPostModalShow: false });
+    this.setState({empTasksData:[...this.state.empTasksData, data2]})
   };
 
 
