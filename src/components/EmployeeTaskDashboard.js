@@ -105,6 +105,7 @@ class EmployeeTaskDashboard extends Component {
 
   handleLogout = () => {
     Cookies.remove("Task_Secret_Token")
+    localStorage.removeItem("Employee Gmail")
     this.props.navigate('/login')
   };
 
@@ -154,35 +155,37 @@ class EmployeeTaskDashboard extends Component {
               <Row className="mb-3">
                 <Col md={6}>
                   <Form.Group controlId="name">
-                    <Form.Label>Name: </Form.Label>
+                    <Form.Label>Name : </Form.Label>
                     <Form.Control type="text" placeholder="Enter Name" value={employeeData.employeeName} readOnly />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
                   <Form.Group controlId="email">
-                    <Form.Label>Email: </Form.Label>
+                    <Form.Label>Email : </Form.Label>
                     <Form.Control type="email" placeholder="Enter Email" value={employeeData.gmailId} readOnly />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
                   <Form.Group controlId="mobileNumber">
-                    <Form.Label>Mobile Number: </Form.Label>
+                    <Form.Label>Mobile Number : </Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="Enter Mobile Number"
+                      placeholder="Mobile Number"
                       value={employeeData.mobileNumber}
                       onChange={this.handleMobileNumberChange}
+                      readOnly
                     />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
                   <Form.Group controlId="skills">
-                    <Form.Label>Designation : </Form.Label>
+                    <Form.Label>Role : </Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Enter Skills"
                       value={employeeData.techStack}
                       onChange={(e) => this.setState({ skills: e.target.value })}
+                      readOnly
                     />
                   </Form.Group>
                 </Col>

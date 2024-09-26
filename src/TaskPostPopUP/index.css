@@ -4,6 +4,14 @@
     border-bottom: 1px solid #dee2e6;
 }
 
+.colorRed{
+    color: red;
+}
+
+.setHeaderAl{
+    justify-content: space-between;
+}
+
 /* Modal Title */
 #contained-modal-title-vcenter {
     font-size: 1.5rem;

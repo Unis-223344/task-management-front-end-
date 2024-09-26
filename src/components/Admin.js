@@ -11,12 +11,14 @@ import MyVerticallyCenteredModal from '../PopUpEdit';
 import TaskPostApiPopUp from '../TaskPostPopUP';
 import Cookies from 'js-cookie';
 import { IoMdAddCircleOutline } from "react-icons/io";
+import { MdDelete } from "react-icons/md";
 
 
 class Admin extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showAddBtn:false,
       updateDescription:"",
       updateMangerComments:"",
       updatePdf:"",
@@ -189,7 +191,7 @@ class Admin extends Component {
     const dataAssign = {
       "taskNum": taskIdNum,
       "taskAssignedTime3": new Date().toLocaleString(),
-      "assignedStatus3":"Assinged"
+      "assignedStatus3":"Assigned"
     }
     const url = "http://localhost:4000/updateTaskAssigned"
     const getTask = await fetch(url, {
@@ -238,43 +240,45 @@ class Admin extends Component {
               <Row className="mb-3">
                 <Col md={6}>
                   <Form.Group controlId="name">
-                    <Form.Label className='name55'>Name: </Form.Label>
-                    <Form.Control className='name5533' type="text" placeholder="Enter Name" value={name.employeeName} readOnly />
+                    <Form.Label >Name : </Form.Label>
+                    <Form.Control  
+                    type="text" 
+                    placeholder="Name" 
+                    value={name.employeeName} 
+                    readOnly />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
-                  <Form.Group className='email55' controlId="email">
-                    <Form.Label className='email66'>Email: </Form.Label>
+                  <Form.Group controlId="email">
+                    <Form.Label className='email66'>Email : </Form.Label>
                     <Form.Control
-                     className='inputEmail55'
                       type="email"
-                      placeholder="Enter Email"
+                      placeholder="Gmail"
                       value={name.gmailId}
-                      onChange={(e) => this.setState({ email: e.target.value })}
+                      readOnly
                     />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
-                  <Form.Group className='mobile55' controlId="mobileNumber">
-                    <Form.Label>Mobile Number: </Form.Label>
+                  <Form.Group controlId="mobileNumber">
+                    <Form.Label>Mobile Number : </Form.Label>
                     <Form.Control
-                    className='mobile5566'
                       type="text"
                       placeholder="Enter Mobile Number"
                       value={mobileNumber}
-                      onChange={this.handleMobileNumberChange}
+                      readOnly
                     />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
-                  <Form.Group className='skills55' controlId="skills">
-                    <Form.Label>Designation: </Form.Label>
+                  <Form.Group controlId="skills">
+                    <Form.Label>Role : </Form.Label>
                     <Form.Control
-                    className='skills5566'
+                    
                       type="text"
                       placeholder="Enter Skills"
                       value={name.techStack}
-                      onChange={(e) => this.setState({ skills: e.target.value })}
+                      readOnly
                     />
                   </Form.Group>
                 </Col>
@@ -336,8 +340,8 @@ class Admin extends Component {
                           <td className='thredtask5466'>{task.employeeComment}</td>
                           <td className='thredtask5466'>{task.managerComment}</td>
                           <td className='thredtask5466'>
-                          <Button variant="primary" onClick={() => this.deleteTask(task.taskNumber)}>
-                              Delete
+                          <Button variant="danger" onClick={() => this.deleteTask(task.taskNumber)}>
+                          <MdDelete />
                             </Button>
                           </td>
                         </tr>

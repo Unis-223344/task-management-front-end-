@@ -2,6 +2,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import "./index.css"
+import { IoCloseSharp } from "react-icons/io5";
 
 class TaskPostApiPopUp extends React.Component {
     constructor(props) {
@@ -39,7 +40,7 @@ class TaskPostApiPopUp extends React.Component {
             employeeId1: this.props.prop[0],
             taskDiscription1: this.state.description,
             pdfFile1: this.state.attachment,
-            taskCreateTime1: this.state.selectedCreateDate,
+            taskCreateTime1: new Date().toLocaleString(),
             taskAssignedTime1: this.state.selectedAssignedDate,
             assignedStatus1: this.state.assignedStatus,
             completeDateTime1: this.state.selectedWorkCompleteDate,
@@ -62,6 +63,7 @@ class TaskPostApiPopUp extends React.Component {
             const data = await response.json()
             if (response.status === 201) {
                 alert("Task added successfully")
+                this.props.onHide2()
                 this.setState({description: ""})
                 this.setState({attachment:""})
             }
@@ -107,15 +109,16 @@ class TaskPostApiPopUp extends React.Component {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton>
+        <Modal.Header className='setHeaderAl'>
           <Modal.Title id="contained-modal-title-vcenter">
             POST TASK
           </Modal.Title>
+          <Button onClick={this.props.onHide2}>X</Button>
         </Modal.Header>
         <Modal.Body>
                 <div className="resizable-window0123">
                     <div className="container02">
-                        <div className="form-group0323">
+                        {/* <div className="form-group0323">
                             <label htmlFor="task">Task:</label>
                             <input
                                 type="text"
@@ -124,7 +127,7 @@ class TaskPostApiPopUp extends React.Component {
                                 onChange={(e) => this.setState({ task: e.target.value })}
                                 disabled={true} // Always disabled
                             />
-                        </div>
+                        </div> */}
                         <div className="form-group0423">
                             <label htmlFor="employeeID">Employee ID:</label>
                             <input
@@ -136,7 +139,7 @@ class TaskPostApiPopUp extends React.Component {
                             />
                         </div>
                         <div className="form-group0523">
-                            <label htmlFor="description">Description:</label>
+                            <label htmlFor="description"> <span className='colorRed'>*</span>Description:</label>
                             <textarea
                                 id="description"
                                 value={description}
@@ -217,7 +220,6 @@ class TaskPostApiPopUp extends React.Component {
                 </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={this.props.onHide2}>Close</Button>
           <Button variant="primary" onClick={this.handleSubmit}>
                               Submit
                             </Button>

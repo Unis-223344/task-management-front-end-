@@ -32,22 +32,26 @@ class MyVerticallyCenteredModal extends React.Component {
             "pdfFile1":this.state.attachment,
             "managerComment1":this.state.managerComment
         }
-        // api call here
-
-        const url = "http://localhost:4000/updateTaskAssigned2"
-    const options = {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-        },
-        body: JSON.stringify(postData),
-    }
-    const response = await fetch(url,options)
-    const data = await response.json()
-    if (response.status === 201) {
-        alert("Task Updated successfully")
-    }
+        
+        if(this.state.description === ""){
+            alert("Required Description Field")
+        }else{
+            const url = "http://localhost:4000/updateTaskAssigned2"
+            const options = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                },
+                body: JSON.stringify(postData),
+            }
+            const response = await fetch(url,options)
+            const data = await response.json()
+            if (response.status === 201) {
+                alert("Task Updated successfully")
+                this.props.onHide()
+            }
+        }
   }
  
     handleFileChange = (event) => {
@@ -100,7 +104,7 @@ class MyVerticallyCenteredModal extends React.Component {
                                 type="text"
                                 id="task"
                                 className='input0011'
-                                value={this.props.prop[1]}
+                                value={this.props.prop[1].slice(30,36)}
                                 onChange={(e) => this.setState({ task: e.target.value })}
                                 disabled={true} // Always disabled
                             />
@@ -117,7 +121,7 @@ class MyVerticallyCenteredModal extends React.Component {
                             />
                         </div>
                         <div className="form-group05">
-                            <label htmlFor="description">Description:</label>
+                            <label htmlFor="description"><span className='colorRed'>*</span>Description:</label>
                             <textarea
                                 id="description"
                                 className='input00771'
@@ -207,7 +211,6 @@ class MyVerticallyCenteredModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
         <Button onClick={this.postUpdateApiTask}>Submit</Button>
-          <Button onClick={this.props.onHide}>Close</Button>
         </Modal.Footer>
       </Modal>
     );

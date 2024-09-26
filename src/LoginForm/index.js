@@ -68,7 +68,7 @@ class LoginForm extends Component {
 
         <form className="form-container" onSubmit={this.submitForm}>
             <div className='nameCont'>
-          <h1 className='head2'> Unis Login Form </h1>
+          <h1 className='head2'> Unis Employee Login Form </h1>
           </div>
           <div className="input-container">
           <label className="input-label" htmlFor="username">
