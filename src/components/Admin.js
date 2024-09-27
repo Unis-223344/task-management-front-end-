@@ -64,9 +64,13 @@ class Admin extends Component {
     this.setState({ taskPostModalShow: true });
   };
 
+  handleClose3 = () =>{
+    this.setState({ taskPostModalShow: false });
+  }
+
   handleClose2 = (data2) => {
     this.setState({ taskPostModalShow: false });
-    this.setState({empTasksData:[...this.state.empTasksData, data2]})
+    this.setState({empTasksData:data2})
   };
 
 
@@ -171,7 +175,7 @@ class Admin extends Component {
     this.setState({getApiData:data})
   }
 
-  deleteTask = async (taskDeleteId) => {
+  deleteTask = async (taskDeleteId,idNum4) => {
     const url = "http://localhost:4000/oneTaskDelete"
     const options = {
       method: 'DELETE',
@@ -179,17 +183,19 @@ class Admin extends Component {
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
-      body: JSON.stringify({"taskNum":taskDeleteId}),
+      body: JSON.stringify({"taskNum":taskDeleteId,"idNum":idNum4}),
     };
     const response = await fetch(url,options)
     const data = await response.json()
     if (response.status === 201) {
+      this.setState({empTasksData:data})
       alert("Task Deleted successfully")
   }
   }
 
-  assignTask = async (taskIdNum) =>{
+  assignTask = async (taskIdNum,idNum2) =>{
     const dataAssign = {
+      "idNum":idNum2,
       "taskNum": taskIdNum,
       "taskAssignedTime3": new Date().toLocaleString(),
       "assignedStatus3":"Assigned"
@@ -204,6 +210,7 @@ class Admin extends Component {
     })
     const resData = await getTask.json()
     if (getTask.status === 201){
+      this.setState({empTasksData:resData})
       alert("Task Assigned successfully")
     }
   }
@@ -212,6 +219,10 @@ class Admin extends Component {
   removeAdminToken = () =>{
     const token = Cookies.remove("Admin_Secret_Token")
     this.props.navigate('/Admin-Login')
+  }
+
+  updatedGetData = (data3) =>{
+    this.setState({empTasksData:data3})
   }
 
   render() {
@@ -317,6 +328,7 @@ class Admin extends Component {
                             <MyVerticallyCenteredModal
                             prop={[name.employeeId, taskNumTooEdit, updateDescription, updateMangerComments]}
                             show={this.state.modalShow}
+                            onHide4= {this.updatedGetData}
                             onHide={this.handleClose}
                           />
                           </div>
@@ -332,7 +344,7 @@ class Admin extends Component {
                           </td>
                           <td className='thredtask5466'>{task.taskCreateTime}</td>
                           <td className='thredtask5466'>
-                            {task.taskAssignedTime === "" ? <Button variant="primary" onClick={() => this.assignTask(task.taskNumber)}>
+                            {task.taskAssignedTime === "" ? <Button variant="primary" onClick={() => this.assignTask(task.taskNumber,name.employeeId)}>
                           <IoMdAddCircleOutline />
                             </Button> : task.taskAssignedTime}</td>
                           <td className='thredtask5466'>{task.assignedStatus}</td>
@@ -341,7 +353,7 @@ class Admin extends Component {
                           <td className='thredtask5466'>{task.employeeComment}</td>
                           <td className='thredtask5466'>{task.managerComment}</td>
                           <td className='thredtask5466'>
-                          <Button variant="danger" onClick={() => this.deleteTask(task.taskNumber)}>
+                          <Button variant="danger" onClick={() => this.deleteTask(task.taskNumber,name.employeeId)}>
                           <MdDelete />
                             </Button>
                           </td>
@@ -356,6 +368,7 @@ class Admin extends Component {
                   prop={[name.employeeId]}
           show={this.state.taskPostModalShow}
           onHide2={this.handleClose2}
+          onHide3={this.handleClose3}
         />
                 </Col>
               </Row>

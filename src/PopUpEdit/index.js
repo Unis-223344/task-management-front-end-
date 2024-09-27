@@ -10,7 +10,7 @@ class MyVerticallyCenteredModal extends React.Component {
             isVisible:true,
             task: '',
             employeeID: '',
-            description: '',
+            description: this.props.prop[2],
             attachment: '',
             selectedCreateDate:"",
             selectedAssignedDate: '',
@@ -27,14 +27,15 @@ class MyVerticallyCenteredModal extends React.Component {
 
     postUpdateApiTask = async ()=>{
         const postData = {
+            "idNum":this.props.prop[0],
             "taskNum":this.props.prop[1],
             "taskDiscription1":this.state.description,
             "pdfFile1":this.state.attachment,
             "managerComment1":this.state.managerComment
         }
         
-        if(this.state.description === ""){
-            alert("Required Description Field")
+        if(this.state.description === "" && this.state.managerComment === ""){
+            alert("Required Description or Manager Field")
         }else{
             const url = "http://localhost:4000/updateTaskAssigned2"
             const options = {
@@ -46,10 +47,11 @@ class MyVerticallyCenteredModal extends React.Component {
                 body: JSON.stringify(postData),
             }
             const response = await fetch(url,options)
-            const data = await response.json()
+            const data3 = await response.json()
             if (response.status === 201) {
                 alert("Task Updated successfully")
                 this.props.onHide()
+                this.props.onHide4(data3)
             }
         }
   }
@@ -143,7 +145,7 @@ class MyVerticallyCenteredModal extends React.Component {
                             />
                             <span>{attachment && `Selected File: ${attachment} (${attachmentFormat})`}</span>
                         </div>
-                        <div className="form-group07">
+                        {/* <div className="form-group07">
                             <label className='input005611'>Create Date & Time:</label>
                             <input
                             className='input00988911'
@@ -192,7 +194,7 @@ class MyVerticallyCenteredModal extends React.Component {
                                 onChange={(e) => this.setState({ employeeComment: e.target.value })}
                                 disabled={!isEditing} // Editable only in edit mode
                             />
-                        </div>
+                        </div> */}
                         <div className="form-group13">
                             <label className='inputhgff0011' htmlFor="managerComment">Manager Comment:</label>
                             <textarea

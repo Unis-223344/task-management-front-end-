@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import CompleteWorkStatus from '../WorkStatusPopUp';
+import { IoCheckmarkDoneCircle } from "react-icons/io5";
 
 class EmployeeTaskDashboard extends Component {
   constructor(props) {
@@ -132,6 +133,10 @@ class EmployeeTaskDashboard extends Component {
     window.open(`http://localhost:5000/download/${pdf}`, '_blank');
 };
 
+addDataFunction2 = (data5)=>{
+  this.setState({allTasksData:data5})
+}
+
   render() {
     const { name, email, mobileNumber, skills, tasks, isEditing , employeeData} = this.state;
     const { allTasksData } = this.state
@@ -223,12 +228,14 @@ class EmployeeTaskDashboard extends Component {
                           <td>{task.taskAssignedTime}</td>
                           <td>{task.assignedStatus}</td>
                           <td>
-                          {task.completeDateTime === "" ? <div><Button variant="primary" 
+                          {task.completeDateTime === "" ? <div><Button variant="success" 
                               onClick={() => this.submitTaskApi()}>
-                              Completed
+                              <IoCheckmarkDoneCircle />
                             </Button>
                             <CompleteWorkStatus
                             addProp={task.taskNumber}
+                            addProp2 = {task.employeeId}
+                            addDataFunction = {this.addDataFunction2}
           show={this.state.completeStatusModalShow}
           onHide={() => this.setState({ completeStatusModalShow: false })}
         /> </div>  : task.completeDateTime}

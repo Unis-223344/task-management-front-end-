@@ -117,7 +117,7 @@ class TaskPostApiPopUp extends React.Component {
           <Modal.Title id="contained-modal-title-vcenter">
             POST TASK
           </Modal.Title>
-          <Button onClick={this.props.onHide2}>X</Button>
+          <Button onClick={this.props.onHide3}>X</Button>
         </Modal.Header>
         <Modal.Body>
                 <div className="resizable-window0123">
@@ -163,7 +163,7 @@ class TaskPostApiPopUp extends React.Component {
                             />
                             <span>{attachment && `Selected File: ${attachment} (${attachmentFormat})`}</span>
                         </div>
-                        <div className="form-group0723">
+                        {/* <div className="form-group0723">
                             <label>Create Date & Time:</label>
                             <input
                                 type="datetime-local"
@@ -190,17 +190,17 @@ class TaskPostApiPopUp extends React.Component {
                                 onChange={(e) => this.setState({ assignedStatus: e.target.value })}
                                 disabled={!isEditing} // Editable only in edit mode
                             />
-                        </div>
-                        <div className="form-group1023">
+                        </div> */}
+                        {/* <div className="form-group1023">
                             <label>Work Complete Date & Time:</label>
                             <input
                                 type="datetime-local23"
                                 value={selectedWorkCompleteDate ? new Date(selectedWorkCompleteDate).toISOString().slice(0, 16) : ''}
                                 onChange={(e) => this.handleDateChange('selectedWorkCompleteDate', e)}
-                                disabled={true} // Always disabled
+                                disabled={true} 
                             />
-                        </div>
-                        <div className="form-group1223">
+                        </div> */}
+                        {/* <div className="form-group1223">
                             <label htmlFor="employeeComment">Employee Comment:</label>
                             <textarea
                                 id="employeeComment"
@@ -208,7 +208,7 @@ class TaskPostApiPopUp extends React.Component {
                                 onChange={(e) => this.setState({ employeeComment: e.target.value })}
                                 disabled={!isEditing} // Editable only in edit mode
                             />
-                        </div>
+                        </div> */}
                         <div className="form-group1323">
                             <label htmlFor="managerComment">Manager Comment:</label>
                             <textarea
