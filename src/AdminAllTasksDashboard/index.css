@@ -1,0 +1,64 @@
+.dashboard-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.dashboard-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.domain-selection, .status-selection, .search-employee {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.domain-label, .status-label, .search-label {
+  margin-right: 10px;
+}
+
+.domain-select, .status-select, .search-input {
+  padding: 8px;
+  font-size: 16px;
+}
+
+.employee-task-table {
+  margin-top: 20px;
+}
+
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.task-table th, .task-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.task-row.completed {
+  background-color: #e0ffe0;
+}
+
+.task-row.not-completed {
+  background-color: #ffe0e0;
+}
+
+.status-completed {
+  color: green;
+}
+
+.status-not-completed {
+  color: red;
+}
+
+.no-results {
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+  color: #888;
+}

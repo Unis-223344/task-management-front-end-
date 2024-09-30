@@ -12,11 +12,11 @@ class CompleteWorkStatus extends React.Component {
 
 
 
-    taskStatusUpdate = async (idProp,idProp2) =>{
+    taskStatusUpdate = async (addprop22) =>{
         const url = "http://localhost:4000/updateCreateStatus"
         const bodyData = {
-            "idNum":idProp2,
-            "taskId2":idProp,
+            "idNum":addprop22[0],
+            "taskId2":addprop22[1],
             "completedTime2": new Date().toLocaleString(),
             "status2":"Completed",
             "empComment2":this.state.empCommentIn
@@ -36,7 +36,7 @@ class CompleteWorkStatus extends React.Component {
           const response = await fetch(url,options)
           const data = await response.json()
           if (response.status === 201){
-            this.props.addDataFunction(data)
+            this.props.adddatafunction(data)
             this.props.onHide()
             alert("Task submitted successfully")
           }
@@ -60,7 +60,7 @@ class CompleteWorkStatus extends React.Component {
            <input type="text" onChange={ (e) => this.setState({empCommentIn:e.target.value})} />
         </Modal.Body>
         <Modal.Footer>
-        <Button onClick={ () => this.taskStatusUpdate(this.props.addProp,this.props.addProp2)} >Submit</Button>
+        <Button onClick={ () => this.taskStatusUpdate(this.props.addprop22)} >Submit</Button>
           {/* <Button onClick={this.props.onHide}>Close</Button> */}
         </Modal.Footer>
       </Modal>

@@ -12,6 +12,7 @@ class EmployeeTaskDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      taskNum:'',
       addSta:"",
       btnHide:false,
       completeStatusModalShow: false,
@@ -41,8 +42,9 @@ class EmployeeTaskDashboard extends Component {
     };
   }
 
-  submitTaskApi = async () =>{
+  submitTaskApi = (num) =>{
     this.setState({ completeStatusModalShow: true })
+    this.setState({taskNum: num});
   }
 
   componentDidMount() {
@@ -229,13 +231,12 @@ addDataFunction2 = (data5)=>{
                           <td>{task.assignedStatus}</td>
                           <td>
                           {task.completeDateTime === "" ? <div><Button variant="success" 
-                              onClick={() => this.submitTaskApi()}>
+                              onClick={() => this.submitTaskApi(task.taskNumber)}>
                               <IoCheckmarkDoneCircle />
                             </Button>
                             <CompleteWorkStatus
-                            addProp={task.taskNumber}
-                            addProp2 = {task.employeeId}
-                            addDataFunction = {this.addDataFunction2}
+                            addprop22 = {[task.employeeId,this.state.taskNum]}
+                            adddatafunction = {this.addDataFunction2}
           show={this.state.completeStatusModalShow}
           onHide={() => this.setState({ completeStatusModalShow: false })}
         /> </div>  : task.completeDateTime}

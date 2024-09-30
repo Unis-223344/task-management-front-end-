@@ -77,7 +77,7 @@ class Admin extends Component {
   handleShow = (num,desc,mangerCom) => {
     this.setState({ modalShow: true});
     this.setState({taskNumTooEdit:num })
-    this.setState({pdateDescription:desc })
+    this.setState({updateDescription:desc })
     this.setState({updateMangerComments:mangerCom })
   };
 
@@ -304,7 +304,6 @@ class Admin extends Component {
                         <th className='task5566'>Task</th>
                         <th className='task5566'>Employee ID</th>
                         <th className='task5566'>Description</th>
-                        <th className='task5566'>Files</th>
                         <th className='task5566'>Create Date & Time</th>
                         <th className='task5566'>Assigned Date & Time</th>
                         <th className='task5566'>Assigned Status</th>
@@ -339,9 +338,6 @@ class Admin extends Component {
                           <td className='thredtask5466'>
                               {task.taskDiscription}
                           </td>
-                          <td className='thredtask5466'>
-                              {task.pdfFile}
-                          </td>
                           <td className='thredtask5466'>{task.taskCreateTime}</td>
                           <td className='thredtask5466'>
                             {task.taskAssignedTime === "" ? <Button variant="primary" onClick={() => this.assignTask(task.taskNumber,name.employeeId)}>
@@ -365,7 +361,7 @@ class Admin extends Component {
                     Add Task
                   </Button>
                   <TaskPostApiPopUp
-                  prop={[name.employeeId]}
+                  prop={[name.employeeId, name.techStack, name.employeeName]}
           show={this.state.taskPostModalShow}
           onHide2={this.handleClose2}
           onHide3={this.handleClose3}

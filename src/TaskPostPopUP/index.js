@@ -39,6 +39,8 @@ class TaskPostApiPopUp extends React.Component {
  
         const postData = {
             taskNumber1: "",
+            role1:this.props.prop[1],
+            employeeName1: this.props.prop[2],
             employeeId1: this.props.prop[0],
             taskDiscription1: this.state.description,
             pdfFile1: this.state.attachment,
@@ -122,22 +124,12 @@ class TaskPostApiPopUp extends React.Component {
         <Modal.Body>
                 <div className="resizable-window0123">
                     <div className="container02">
-                        {/* <div className="form-group0323">
-                            <label htmlFor="task">Task:</label>
-                            <input
-                                type="text"
-                                id="task"
-                                value={task}
-                                onChange={(e) => this.setState({ task: e.target.value })}
-                                disabled={true} // Always disabled
-                            />
-                        </div> */}
                         <div className="form-group0423">
                             <label htmlFor="employeeID">Employee ID:</label>
                             <input
                                 type="text"
                                 id="employeeID"
-                                value={this.props.prop}
+                                value={this.props.prop[0]}
                                 onChange={(e) => this.setState({ employeeID: e.target.value })}
                                 disabled={true} // Always disabled
                             />
