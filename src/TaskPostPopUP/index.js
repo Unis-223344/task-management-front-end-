@@ -23,7 +23,7 @@ class TaskPostApiPopUp extends React.Component {
             selectedAssignedDate: '',
             selectedWorkCompleteDate: '',
             assignedStatus: '',
-            completeStatus: '',
+            completeStatus: 'Not Completed',
             isDescriptionEditable: false,
             isAttachmentEditable: false,
             isManagerCommentEditable: false
@@ -69,6 +69,7 @@ class TaskPostApiPopUp extends React.Component {
                 alert("Task added successfully")
                 this.props.onHide2(data)
                 this.setState({description: ""})
+                this.setState({managerComment: ""})
                 this.setState({attachment:""})
                 this.setState({addData: data})
             }
@@ -155,52 +156,7 @@ class TaskPostApiPopUp extends React.Component {
                             />
                             <span>{attachment && `Selected File: ${attachment} (${attachmentFormat})`}</span>
                         </div>
-                        {/* <div className="form-group0723">
-                            <label>Create Date & Time:</label>
-                            <input
-                                type="datetime-local"
-                                value={selectedCreateDate ? new Date(selectedCreateDate).toISOString().slice(0, 16) : ''}
-                                onChange={(e) => this.handleDateChange('selectedCreateDate', e)}
-                                disabled={true} // Always disabled
-                            />
-                        </div>
-                        <div className="form-group0823">
-                            <label>Assigned Date & Time:</label>
-                            <input
-                                type="datetime-local"
-                                value={selectedAssignedDate ? new Date(selectedAssignedDate).toISOString().slice(0, 16) : ''}
-                                onChange={(e) => this.handleDateChange('selectedAssignedDate', e)}
-                                disabled={true} // Always disabled
-                            />
-                        </div>
-                        <div className="form-group0923">
-                            <label htmlFor="assignedStatus">Assigned Status:</label>
-                            <input
-                                type="text"
-                                id="assignedStatus"
-                                value={assignedStatus}
-                                onChange={(e) => this.setState({ assignedStatus: e.target.value })}
-                                disabled={!isEditing} // Editable only in edit mode
-                            />
-                        </div> */}
-                        {/* <div className="form-group1023">
-                            <label>Work Complete Date & Time:</label>
-                            <input
-                                type="datetime-local23"
-                                value={selectedWorkCompleteDate ? new Date(selectedWorkCompleteDate).toISOString().slice(0, 16) : ''}
-                                onChange={(e) => this.handleDateChange('selectedWorkCompleteDate', e)}
-                                disabled={true} 
-                            />
-                        </div> */}
-                        {/* <div className="form-group1223">
-                            <label htmlFor="employeeComment">Employee Comment:</label>
-                            <textarea
-                                id="employeeComment"
-                                value={employeeComment}
-                                onChange={(e) => this.setState({ employeeComment: e.target.value })}
-                                disabled={!isEditing} // Editable only in edit mode
-                            />
-                        </div> */}
+                       
                         <div className="form-group1323">
                             <label htmlFor="managerComment">Manager Comment:</label>
                             <textarea

@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import "./index.css"
 
 class CompleteWorkStatus extends React.Component {
     constructor(props) {
@@ -57,7 +58,7 @@ class CompleteWorkStatus extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-           <input type="text" onChange={ (e) => this.setState({empCommentIn:e.target.value})} />
+           <input type="text" className='inputcss' onChange={ (e) => this.setState({empCommentIn:e.target.value})} />
         </Modal.Body>
         <Modal.Footer>
         <Button onClick={ () => this.taskStatusUpdate(this.props.addprop22)} >Submit</Button>

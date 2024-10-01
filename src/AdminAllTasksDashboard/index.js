@@ -1,118 +1,197 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
+import { Navigate, Link } from "react-router-dom";
+import Cookies from "js-cookie";
 import './index.css'; // Add this file for styling
 
-const AllTasksDashboard = () => {
-  const [selectedDomain, setSelectedDomain] = useState("All");
-  const [selectedStatus, setSelectedStatus] = useState("All");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [employees, setEmployees] = useState([
-    { id: 1, name: "John Doe", task: "Develop Homepage", status: "Completed", domain: "Development" },
-    { id: 2, name: "Jane Smith", task: "Design Logo", status: "Not Completed", domain: "Design" },
-    { id: 3, name: "Tom Brown", task: "Deploy App", status: "Not Completed", domain: "Deployment" },
-    { id: 4, name: "Alice Green", task: "Test Features", status: "Completed", domain: "Testing" },
-  ]);
+class AllTasksDashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedDomain: "All",
+      selectedStatus: "All",
+      searchTerm: "",
+      tasksData:[],
+      employees: [
+        { id: 1, name: "John Doe", task: "Develop Homepage", status: "Completed", domain: "Development" },
+        { id: 2, name: "Jane Smith", task: "Design Logo", status: "Not Completed", domain: "Design" },
+        { id: 3, name: "Tom Brown", task: "Deploy App", status: "Not Completed", domain: "Deployment" },
+        { id: 4, name: "Alice Green", task: "Test Features", status: "Completed", domain: "Testing" },
+      ],
+    };
+  }
 
-  const domains = ["All", "Development", "Design", "Testing", "Deployment"];
-  const statuses = ["All", "Completed", "Not Completed"];
+  componentDidMount(){
+    this.getAllTasksApiDash()
+  }
 
-  // Filter employees based on domain, status, and search term
-  const filteredEmployees = employees.filter((employee) => {
-    const matchesDomain = selectedDomain === "All" || employee.domain === selectedDomain;
-    const matchesStatus = selectedStatus === "All" || employee.status === selectedStatus;
-    const matchesSearchTerm = employee.name.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesDomain && matchesStatus && matchesSearchTerm;
-  });
+  getAllTasksApiDash = async () =>{
+    const url = "http://localhost:4000/getAllTasks"
+    const options = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    }
+    try {
+      const response = await fetch(url, options)
+      const data = await response.json()
+      if(response.status === 201){
+        this.setState({tasksData:data})
+      }
+    } catch (e) {
+      console.log(`Error at getting all tasks : ${e.message}`)
+    }
+  }
 
-  return (
-    <div className="dashboard-container">
-      <h1 className="dashboard-title">Admin Task Dashboard</h1>
+  handleDomainChange = (e) => {
+    this.setState({ selectedDomain: e.target.value });
+  };
 
-      {/* Domain Selection */}
-      <div className="domain-selection">
-        <label htmlFor="domain" className="domain-label">Select Domain:</label>
-        <select
-          id="domain"
-          value={selectedDomain}
-          onChange={(e) => setSelectedDomain(e.target.value)}
-          className="domain-select"
-        >
-          {domains.map((domain, index) => (
-            <option key={index} value={domain}>
-              {domain}
-            </option>
-          ))}
-        </select>
-      </div>
+  handleStatusChange = (e) => {
+    this.setState({ selectedStatus: e.target.value });
+  };
 
-      {/* Status Selection */}
-      <div className="status-selection">
-        <label htmlFor="status" className="status-label">Select Status:</label>
-        <select
-          id="status"
-          value={selectedStatus}
-          onChange={(e) => setSelectedStatus(e.target.value)}
-          className="status-select"
-        >
-          {statuses.map((status, index) => (
-            <option key={index} value={status}>
-              {status}
-            </option>
-          ))}
-        </select>
-      </div>
+  handleSearchChange = (e) => {
+    this.setState({ searchTerm: e.target.value });
+  };
 
-      {/* Search by Employee Name */}
-      <div className="search-employee">
-        <label htmlFor="search" className="search-label">Search Employee:</label>
-        <input
-          type="text"
-          id="search"
-          placeholder="Enter employee name"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-input"
-        />
-      </div>
+  filterEmployees = () => {
+    const { tasksData, employees, selectedDomain, selectedStatus, searchTerm } = this.state;
 
-      {/* Employee Task Table */}
-      <div className="employee-task-table">
-        <table className="task-table">
-          <thead>
-            <tr>
-              <th> Employee ID</th>
-              <th>Task ID</th>
-              <th>Description</th>
-              <th>Task Create Time</th>
-              <th>Task Assigned Time</th>
-              <th> Task Completed Time</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredEmployees.length > 0 ? (
-              filteredEmployees.map((employee) => (
-                <tr key={employee.id} className={`task-row ${employee.status === "Completed" ? 'completed' : 'not-completed'}`}>
-                  <td>{employee.name}</td>
-                  <td>{employee.task}</td>
-                  <td>{employee.domain}</td>
-                  <td>{employee.domain}</td>
-                  <td>{employee.domain}</td>
-                  <td>{employee.domain}</td>
-                  <td className={`status ${employee.status === "Completed" ? 'status-completed' : 'status-not-completed'}`}>
-                    {employee.status}
-                  </td>
-                </tr>
-              ))
-            ) : (
+    return tasksData.filter((employee) => {
+      const matchesDomain = selectedDomain === "All" || employee.roleDesgnation === selectedDomain;
+      const matchesStatus = selectedStatus === "All" || employee.completeStatus === selectedStatus;
+      const matchesSearchTerm = employee.employeeName.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchesDomain && matchesStatus && matchesSearchTerm;
+    });
+  };
+
+  logOutRemoveToken = () =>{
+    Cookies.remove("Admin_Secret_Token");
+    window.location.reload();
+  }
+
+  render() {
+    const { tasksData,selectedDomain, selectedStatus, searchTerm } = this.state;
+    const filteredEmployees = this.filterEmployees();
+    const domains = [
+      "All","FULL STACK",'FRONTEND',"BACKEND","DATA BASE","BUSINESS ANALYST","Dev Ops","DATA SCIENCE","TESTING","FIGMA"
+    ];
+    const statuses = ["All", "Completed", "Not Completed"];
+    const token = Cookies.get("Admin_Secret_Token")
+    if (!token) {
+      return <Navigate to="/Admin-Login" />;
+    }
+    return (
+      <div className="dashboard-container">
+        <div className="flexitems">
+        <h1 className="dashboard-title">Admin Task Dashboard</h1>
+
+        <div className="btn-flex">
+        <div>
+          <Link to="/admin">
+          <button className="logout-btn2"> Task Assign </button>
+          </Link>
+            </div> 
+        <div>
+          <button className="logout-btn ght" onClick={this.logOutRemoveToken}> Logout </button>
+            </div> 
+            </div>
+
+        </div>
+        <h1 className="dashboard-title2">Domain Task Count : {tasksData.length}</h1>
+
+        {/* Domain Selection */}
+        <div className="domain-selection">
+          <label htmlFor="domain" className="domain-label">Select Domain:</label>
+          <select
+            id="domain"
+            value={selectedDomain}
+            onChange={this.handleDomainChange}
+            className="domain-select"
+          >
+            {domains.map((domain, index) => (
+              <option key={index} value={domain}>
+                {domain}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Status Selection */}
+        <div className="status-selection">
+          <label htmlFor="status" className="status-label">Select Status:</label>
+          <select
+            id="status"
+            value={selectedStatus}
+            onChange={this.handleStatusChange}
+            className="status-select"
+          >
+            {statuses.map((status, index) => (
+              <option key={index} value={status}>
+                {status}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Search by Employee Name */}
+        <div className="search-employee">
+          <label htmlFor="search" className="search-label">Search Employee:</label>
+          <input
+            type="text"
+            id="search"
+            placeholder="Enter employee name"
+            value={searchTerm}
+            onChange={this.handleSearchChange}
+            className="search-input"
+          />
+        </div>
+        <h1 className="dashboard-title2"> Task Count : {filteredEmployees.length}</h1>
+
+        {/* Employee Task Table */}
+        <div className="employee-task-table">
+          <table className="task-table">
+            <thead>
               <tr>
-                <td colSpan="4" className="no-results">No employees found</td>
+                <th>Employee Name</th>
+                <th>Task ID</th>
+                <th>Discription</th>
+                <th>Domain</th>
+                <th>Task Create Time</th>
+                <th>Task Assigned Time</th>
+                <th>Task Completed Time</th>
+                <th>Status</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredEmployees.length > 0 ? (
+                filteredEmployees.map((employee) => (
+                  <tr key={employee.taskNumber} className={`task-row ${employee.completeStatus === "Completed" ? 'completed' : 'not-completed'}`}>
+                    <td>{employee.employeeName}</td>
+                    <td>{employee.taskNumber.slice(30,36)}</td>
+                    <td>{employee.taskDiscription}</td>
+                    <td>{employee.roleDesgnation}</td>
+                    <td>{employee.taskCreateTime}</td>
+                    <td>{employee.taskAssignedTime}</td>
+                    <td>{employee.completeDateTime}</td>
+                    <td className={`status ${employee.completeStatus === "Completed" ? 'status-completed' : 'status-not-completed'}`}>
+                      {employee.completeStatus}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7" className="no-results">No employees found</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default AllTasksDashboard;

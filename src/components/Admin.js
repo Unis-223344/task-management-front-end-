@@ -221,6 +221,12 @@ class Admin extends Component {
     this.props.navigate('/Admin-Login')
   }
 
+  convertTaskDashboard = () =>{
+    this.props.navigate('/admin-all-tasks')
+  }
+
+
+
   updatedGetData = (data3) =>{
     this.setState({empTasksData:data3})
   }
@@ -244,9 +250,19 @@ class Admin extends Component {
               <div className="header">
                 <h1 className="head001">Admin Dashboard</h1>
 
+                <div className='flexItems'>
+                <div className='space-2'>
+                <Button variant="success" className="logout-btn2" onClick={this.convertTaskDashboard}>
+                  Tasks Dashboard
+                </Button>
+                </div>
+                <div>
                 <Button variant="danger" className="logout-btn" onClick={this.removeAdminToken}>
                   Logout
                 </Button>
+                </div>
+                </div>
+
               </div>
 
               <Row className="mb-3">
@@ -357,9 +373,11 @@ class Admin extends Component {
                       ))}
                     </tbody>
                   </Table>
-                  <Button variant="success" onClick={this.handleShow2} className="mb-3">
+
+                  {empName === "" ? "" : <Button variant="success" onClick={this.handleShow2} className="mb-3">
                     Add Task
-                  </Button>
+                  </Button> }
+
                   <TaskPostApiPopUp
                   prop={[name.employeeId, name.techStack, name.employeeName]}
           show={this.state.taskPostModalShow}

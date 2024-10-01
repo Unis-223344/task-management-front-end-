@@ -5,6 +5,26 @@
   font-family: Arial, sans-serif;
 }
 
+.dashboard-title2{
+  font-size: 30px;
+  font-weight: bold;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.ght{
+  margin-right: 200px;
+}
+
+.btn-flex{
+  display: flex;
+  justify-content: flex-start;
+}
+
+.flexitems{
+  display: flex;
+  justify-content: space-between;
+}
+
 .dashboard-title {
   text-align: center;
   margin-bottom: 20px;
