@@ -52,7 +52,7 @@ class EmployeeTaskDashboard extends Component {
   }
   
   getEmployeeTasksApi = async (empId)=>{
-    const url = "http://localhost:4000/getEmployeeAllTasks"
+    const url = "https://unis-task-manager.onrender.com/getEmployeeAllTasks"
     const options = {
       method: 'POST',
       headers: {
@@ -70,7 +70,7 @@ class EmployeeTaskDashboard extends Component {
 
   getEmployeeDetailsApi = async ()=>{
     const getGmailLo = localStorage.getItem("Employee Gmail")
-    const url = "http://localhost:4000/EmployeeDetails"
+    const url = "https://unis-task-manager.onrender.com/EmployeeDetails"
     const options = {
       method: 'POST',
       headers: {
@@ -206,7 +206,6 @@ addDataFunction2 = (data5)=>{
                         <th>Task Number</th>
                         <th>Employee ID</th>
                         <th>Description</th>
-                        <th>Files</th>
                         <th>Created Time & Date</th>
                         <th>Assigned Time & Date</th>
                         <th>Assigned Status</th>
@@ -222,10 +221,6 @@ addDataFunction2 = (data5)=>{
                           <td>{task.taskNumber.slice(30,36)}</td>
                           <td>{task.employeeId}</td>
                           <td>{task.taskDiscription}</td>
-                          <td>
-                <button onClick={ () =>this.handleDownload(task.pdfFile)}>Download</button>
-
-                          </td>
                           <td>{task.taskCreateTime}</td>
                           <td>{task.taskAssignedTime}</td>
                           <td>{task.assignedStatus}</td>

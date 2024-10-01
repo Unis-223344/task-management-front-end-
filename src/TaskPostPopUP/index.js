@@ -54,7 +54,7 @@ class TaskPostApiPopUp extends React.Component {
         }
 
         if(this.state.description !== "" && this.attachment !== ""){
-            const url = "http://localhost:4000/taskAssignPost"
+            const url = "https://unis-task-manager.onrender.com/taskAssignPost"
             const options = {
                 method: 'POST',
                 headers: {
@@ -144,17 +144,6 @@ class TaskPostApiPopUp extends React.Component {
                                 onMouseEnter={() => this.setState({ isDescriptionEditable: true })}
                                 onMouseLeave={() => this.setState({ isDescriptionEditable: false })}
                             />
-                        </div>
-                        <div className="form-group0623">
-                            <label htmlFor="attachment">Attachment:</label>
-                            <input
-                                type="file"
-                                id="attachment"
-                                onChange={this.handleFileChange}
-                                onMouseEnter={() => this.setState({ isAttachmentEditable: true })}
-                                onMouseLeave={() => this.setState({ isAttachmentEditable: false })}
-                            />
-                            <span>{attachment && `Selected File: ${attachment} (${attachmentFormat})`}</span>
                         </div>
                        
                         <div className="form-group1323">

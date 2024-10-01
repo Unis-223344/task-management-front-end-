@@ -37,7 +37,7 @@ class MyVerticallyCenteredModal extends React.Component {
         if(this.state.description === "" && this.state.managerComment === ""){
             alert("Required Description or Manager Field")
         }else{
-            const url = "http://localhost:4000/updateTaskAssigned2"
+            const url = "https://unis-task-manager.onrender.com/updateTaskAssigned2"
             const options = {
                 method: 'PUT',
                 headers: {

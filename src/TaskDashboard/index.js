@@ -36,7 +36,7 @@ class TaskDashboard extends Component {
   }
 
   getTasksData = async ()=>{
-    const url = "http://localhost:4000/tasksData"
+    const url = "https://unis-task-manager.onrender.com/tasksData"
     const jwtToken = Cookies.get('Task_Secret_Token')
     const response = await fetch(url,{
         method:"GET",
@@ -169,9 +169,6 @@ class TaskDashboard extends Component {
 
 export default TaskDashboard;
 
-
-
-// import React, { useState } from 'react';
 // import { Table, Button, Form, Col, Row, Container } from 'react-bootstrap';  
 // import 'bootstrap/dist/css/bootstrap.min.css';  // Import Bootstrap CSS
 // import 'react-datepicker/dist/react-datepicker.css'; // Import date picker CSS

@@ -25,7 +25,7 @@ class AllTasksDashboard extends Component {
   }
 
   getAllTasksApiDash = async () =>{
-    const url = "http://localhost:4000/getAllTasks"
+    const url = "https://unis-task-manager.onrender.com/getAllTasks"
     const options = {
       method: 'GET',
       headers: {
