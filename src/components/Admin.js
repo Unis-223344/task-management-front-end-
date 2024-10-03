@@ -146,7 +146,7 @@ class Admin extends Component {
           const dataNa = {
             "empId":empName
           }
-          const url = "https://unis-task-manager.onrender.com/tasksData"
+          const url = "http://localhost:4000/tasksData"
           const getTask = await  fetch(url, {
             method: 'POST',
             headers:{
@@ -167,7 +167,7 @@ class Admin extends Component {
 
   getApiEmployeesData = async ()=>{
     const {getApiData} = this.state
-    const url = "https://unis-task-manager.onrender.com/employeeDataAdd"
+    const url = "http://localhost:4000/employeeDataAdd"
     const response = await fetch(url,{
       method:"GET"
     })
@@ -176,7 +176,7 @@ class Admin extends Component {
   }
 
   deleteTask = async (taskDeleteId,idNum4) => {
-    const url = "https://unis-task-manager.onrender.com/oneTaskDelete"
+    const url = "http://localhost:4000/oneTaskDelete"
     const options = {
       method: 'DELETE',
       headers: {
@@ -200,7 +200,7 @@ class Admin extends Component {
       "taskAssignedTime3": new Date().toLocaleString(),
       "assignedStatus3":"Assigned"
     }
-    const url = "https://unis-task-manager.onrender.com/updateTaskAssigned"
+    const url = "http://localhost:4000/updateTaskAssigned"
     const getTask = await fetch(url, {
       method: 'PUT',
       headers:{
@@ -214,11 +214,55 @@ class Admin extends Component {
       alert("Task Assigned successfully")
     }
   }
+
+  revokeTask = async (taskIdNum,idNum2) =>{
+    const dataAssign = {
+      "employeeId":idNum2,
+      "taskNumber": taskIdNum,
+      "taskAssignedTime": "",
+      "assignedStatus":""
+    }
+    const url = "http://localhost:4000/workAssignedStatus"
+    const getTask = await fetch(url, {
+      method: 'PUT',
+      headers:{
+        "Content-Type":"application/json",
+      },
+      body: JSON.stringify(dataAssign)
+    })
+    const resData = await getTask.json()
+    if (getTask.status === 201){
+      this.setState({empTasksData:resData})
+      alert("Task Updated Successfully")
+    }
+  }
+
+  revokeIncompleteTask = async (taskIdNum,idNum2) =>{
+    const dataAssign = {
+      "employeeId":idNum2,
+      "taskNumber": taskIdNum,
+      "completeStatus": "",
+      "completeDateTime":""
+    }
+    const url = "http://localhost:4000/inComplteStatus"
+    const getTask = await fetch(url, {
+      method: 'PUT',
+      headers:{
+        "Content-Type":"application/json",
+      },
+      body: JSON.stringify(dataAssign)
+    })
+    const resData = await getTask.json()
+    if (getTask.status === 201){
+      this.setState({empTasksData:resData})
+      alert("Task Updated Successfully")
+    }
+  }
   
 
   removeAdminToken = () =>{
     const token = Cookies.remove("Admin_Secret_Token")
-    this.props.navigate('/Admin-Login')
+    this.props.navigate('/')
   }
 
   convertTaskDashboard = () =>{
@@ -236,7 +280,7 @@ class Admin extends Component {
     const {getApiData, taskNumTooEdit, updateDescription, updateMangerComments} = this.state
     const token = Cookies.get("Admin_Secret_Token")
     if (!token) {
-      return <Navigate to="/Admin-Login" />;
+      return <Navigate to="/" />;
     }
     return (
       <div className="admin-background">
@@ -358,9 +402,16 @@ class Admin extends Component {
                           <td className='thredtask5466'>
                             {task.taskAssignedTime === "" ? <Button variant="primary" onClick={() => this.assignTask(task.taskNumber,name.employeeId)}>
                           <IoMdAddCircleOutline />
+                            </Button> : task.taskAssignedTime}
+                            {task.taskAssignedTime !== "" ? <Button variant="danger" onClick={() => this.revokeTask(task.taskNumber,name.employeeId)}>
+                          <IoMdAddCircleOutline />
                             </Button> : task.taskAssignedTime}</td>
                           <td className='thredtask5466'>{task.assignedStatus}</td>
-                          <td className='thredtask5466'>{task.completeDateTime}</td>
+                          <td className='thredtask5466'>{task.completeDateTime}
+                            {task.completeDateTime === "" ? "" : <Button variant="danger" onClick={() => this.revokeIncompleteTask(task.taskNumber,name.employeeId)}>
+                          <IoMdAddCircleOutline />
+                            </Button>}
+                          </td>
                           <td className='thredtask5466'>{task.completeStatus}</td>
                           <td className='thredtask5466'>{task.employeeComment}</td>
                           <td className='thredtask5466'>{task.managerComment}</td>

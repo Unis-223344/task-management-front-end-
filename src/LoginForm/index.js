@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import './index.css'
 import EmployeeTaskDashboard from '../components/EmployeeTaskDashboard';
@@ -18,7 +18,7 @@ class LoginForm extends Component {
     e.preventDefault()
     const {email, password} = this.state
     const userDetails = {"gmail":email.trim(), "employeePassWord":password.trimEnd()}
-    const url = "https://unis-task-manager.onrender.com/employeesLoginPost"
+    const url = "http://localhost:4000/employeesLoginPost"
     const response = await fetch(url,{
         method: 'POST',
         headers: {
@@ -56,7 +56,7 @@ class LoginForm extends Component {
     const {email,password} =this.state
     const jwtToken = Cookies.get('Task_Secret_Token')
     if (jwtToken !== undefined) {
-      return <Navigate to="/" />
+      return <Navigate to="/employee" />
     }
     return (
       <div className="login-form-container">
@@ -97,6 +97,9 @@ class LoginForm extends Component {
           <button type='submit' className='login-button'>
             Login
           </button>
+          <Link to="/">
+          <button className="task-button admin-button add3">Back To Home</button>
+          </Link>
           </form>
       </div>
     )

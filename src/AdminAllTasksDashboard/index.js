@@ -1,12 +1,21 @@
 import React, { Component } from "react";
 import { Navigate, Link } from "react-router-dom";
 import Cookies from "js-cookie";
+import MyVerticallyCenteredModal from "../PopUpEdit";
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 import './index.css'; // Add this file for styling
 
 class AllTasksDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      modalShow2: false,
+      idNum4:"",
+      taskNumTooEdit4:"",
+      updateDescription4:"",
+      updateMangerComments4:"",
+      count:0,
       selectedDomain: "All",
       selectedStatus: "All",
       searchTerm: "",
@@ -20,12 +29,16 @@ class AllTasksDashboard extends Component {
     };
   }
 
+  handleClose5 = () => {
+    this.setState({ modalShow2: false });
+  };
+
   componentDidMount(){
     this.getAllTasksApiDash()
   }
 
   getAllTasksApiDash = async () =>{
-    const url = "https://unis-task-manager.onrender.com/getAllTasks"
+    const url = "http://localhost:4000/getAllTasks"
     const options = {
       method: 'GET',
       headers: {
@@ -71,17 +84,52 @@ class AllTasksDashboard extends Component {
     Cookies.remove("Admin_Secret_Token");
     window.location.reload();
   }
+  
+  handleShowPopup = (idEmpl,num,desc,mangerCom) => {
+    const {idNum4, taskNumTooEdit4, updateDescription4, updateMangerComments4} = this.state
+    this.setState({ modalShow2: true});
+    this.setState({idNum4: idEmpl})
+    this.setState({taskNumTooEdit4:num })
+    this.setState({updateDescription4:desc })
+    this.setState({updateMangerComments4:mangerCom })
+  };
+
+  updatedGetData5 = (data3) =>{
+    this.setState({tasksData:data3})
+  }
+
+  downloadExcel = () => {
+    // Create a new workbook
+    const filteredEmployees = this.filterEmployees();
+    const workbook = XLSX.utils.book_new();
+
+    // Convert JSON data to a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(filteredEmployees);
+
+    // Append the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Tasks");
+
+    // Generate Excel file buffer
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+
+    // Create a Blob and trigger the download
+    const data = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    saveAs(data, "Employee_Tasks.xlsx");  // This will download the Excel file
+  };
+
+
 
   render() {
     const { tasksData,selectedDomain, selectedStatus, searchTerm } = this.state;
     const filteredEmployees = this.filterEmployees();
+    const {idNum4, taskNumTooEdit4, updateDescription4, updateMangerComments4} = this.state
     const domains = [
       "All","FULL STACK",'FRONTEND',"BACKEND","DATA BASE","BUSINESS ANALYST","Dev Ops","DATA SCIENCE","TESTING","FIGMA"
     ];
     const statuses = ["All", "Completed", "Not Completed"];
     const token = Cookies.get("Admin_Secret_Token")
     if (!token) {
-      return <Navigate to="/Admin-Login" />;
+      return <Navigate to="/" />;
     }
     return (
       <div className="dashboard-container">
@@ -101,6 +149,7 @@ class AllTasksDashboard extends Component {
 
         </div>
         <h1 className="dashboard-title2">Domain Task Count : {tasksData.length}</h1>
+        <button onClick={this.downloadExcel}>Download Excel</button>
 
         {/* Domain Selection */}
         <div className="domain-selection">
@@ -155,6 +204,7 @@ class AllTasksDashboard extends Component {
           <table className="task-table">
             <thead>
               <tr>
+                <th> SI Number</th>
                 <th>Employee Name</th>
                 <th>Task ID</th>
                 <th>Discription</th>
@@ -167,10 +217,26 @@ class AllTasksDashboard extends Component {
             </thead>
             <tbody>
               {filteredEmployees.length > 0 ? (
-                filteredEmployees.map((employee) => (
+                filteredEmployees.map((employee,index) => (
                   <tr key={employee.taskNumber} className={`task-row ${employee.completeStatus === "Completed" ? 'completed' : 'not-completed'}`}>
+                    <td> <strong>{index + 1}</strong> </td>
                     <td>{employee.employeeName}</td>
-                    <td>{employee.taskNumber.slice(30,36)}</td>
+                    <td className='thredtask5466'>
+                            <br />
+                              <div>
+                              <a className='addLink' 
+                              onClick={() => this.handleShowPopup(employee.employeeId,employee.taskNumber,employee.taskDiscription,employee.managerComment)}>
+                              {employee.taskNumber.slice(30,36)}
+                            </a>
+                            <MyVerticallyCenteredModal
+                            prop={[idNum4, taskNumTooEdit4, updateDescription4, updateMangerComments4]}
+                            show={this.state.modalShow2}
+                            onHide4= {this.updatedGetData5}
+                            onHide={this.handleClose5}
+                          />
+                          </div>
+                          </td>
+
                     <td>{employee.taskDiscription}</td>
                     <td>{employee.roleDesgnation}</td>
                     <td>{employee.taskCreateTime}</td>

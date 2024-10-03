@@ -1,0 +1,134 @@
+/* Main container styling */
+.task-page-container {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #c9d6ff, #e2e2e2); /* Peaceful soft pastel gradient */
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  animation: backgroundMove 15s infinite linear;
+}
+
+/* Header section */
+.task-page-header {
+  padding: 60px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #a8edea, #fed6e3); /* Calm gradient for header */
+  width: 100%;
+  color: #333;
+  animation: fadeIn 2s ease-in-out;
+}
+
+.task-page-title {
+  font-size: 44px;
+  margin: 0;
+  animation: textHighlight 3s infinite ease-in-out alternate;
+  color: #2b2d42; /* Calm dark color for highlighting */
+}
+
+.task-page-subtitle {
+  font-size: 22px;
+  margin-top: 10px;
+  color: #6c757d; /* Light text color */
+}
+
+/* Button section */
+.button-section {
+  display: flex;
+  justify-content: center;
+  margin: 50px 0;
+  animation: bounceIn 2s ease-out;
+}
+
+.button-container {
+  display: flex;
+  gap: 40px;
+}
+
+.task-button {
+  background-color: #f9f7f7;
+  color: #112d4e;
+  padding: 15px 30px;
+  border: 2px solid transparent;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.admin-button {
+  background-color: #a8edea;
+}
+
+.employee-button {
+  background-color: #fed6e3;
+}
+
+.task-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Higher shadow on hover */
+  background-color: #e2e2e2; /* Slight change in color for hover */
+}
+
+/* Footer section */
+.task-footer {
+  padding: 20px 0;
+  text-align: center;
+  background-color: #f8f9fa;
+  color: #333;
+  width: 100%;
+}
+
+.footer-text {
+  margin: 0;
+  font-size: 16px;
+  color: #868e96;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes textHighlight {
+  0% {
+    color: #2b2d42;
+    text-shadow: 0 0 5px #f9f7f7, 0 0 10px #a8edea, 0 0 15px #a8edea;
+  }
+  100% {
+    color: #112d4e;
+    text-shadow: 0 0 20px #f9f7f7, 0 0 30px #fed6e3, 0 0 50px #fed6e3;
+  }
+}
+
+@keyframes backgroundMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}

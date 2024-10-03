@@ -12,6 +12,8 @@ class EmployeeTaskDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showMobile:"",
+      count:0,
       taskNum:'',
       addSta:"",
       btnHide:false,
@@ -85,10 +87,42 @@ class EmployeeTaskDashboard extends Component {
       this.setState({employeeData:data})
       this.getEmployeeTasksApi(data.employeeId)
       this.setState({addSta: data.employeeId})
+      this.setState({mobileNumber:data.mobileNumber})
     }
   }
 
- 
+  mobileNumberUpdata = async () =>{
+    const {employeeData, mobileNumber} = this.state
+    const url = "http://localhost:4000/EmployeeDetailsUpdate"
+    const dataBody = {
+      "email":employeeData.gmailId,
+    "mobileNumber1": mobileNumber
+    }
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(dataBody),
+    }
+    if(mobileNumber.length === 10){
+      try {
+        const response = await fetch(url,options)
+        const data = await response.json()
+        if (response.status === 201) {
+          alert('Mobile Number updated successfully')
+        } else {
+          console.log('Error updating mobile number', response.status);
+        }
+      } catch (e) {
+        console.log(`Error at updating mobile Number : ${e.message}`)
+      }
+    }else{
+      alert("Enter 10 Digits")
+    }
+
+  }
 
   handleSaveChanges = () => {
     this.setState({ isEditing: false });
@@ -124,10 +158,9 @@ class EmployeeTaskDashboard extends Component {
   };
 
   handleMobileNumberChange = (e) => {
-    const { value } = e.target;
-
-    if (/^\d*$/.test(value) && value.length <= 10) {
-      this.setState({ mobileNumber: value });
+    const inputValue = e.target.value
+    if (/^\d*$/.test(inputValue)) {
+      this.setState({ mobileNumber: inputValue });
     }
   };
 
@@ -137,6 +170,34 @@ class EmployeeTaskDashboard extends Component {
 
 addDataFunction2 = (data5)=>{
   this.setState({allTasksData:data5})
+}
+
+submitTaskCompleted = async (idNum1,taskNum1) =>{
+  const url = "http://localhost:4000/EmployeeCompleteWorkStatus"
+  const bodyData = {
+      idNum: idNum1,
+      taskNum:taskNum1,
+      status1: "Completed",
+      statusTime1: new Date().toLocaleString()
+  }
+  const options = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(bodyData),
+  }
+  try {
+    const response = await fetch(url,options)
+    const data = await response.json()
+    if (response.status === 201){
+      alert("Status Updated Successfully")
+      this.setState({allTasksData:data})
+    }
+  } catch (e) {
+    console.log(`Error at updating status ${e.message}`)
+  }
 }
 
   render() {
@@ -175,13 +236,20 @@ addDataFunction2 = (data5)=>{
                 <Col md={6}>
                   <Form.Group controlId="mobileNumber">
                     <Form.Label>Mobile Number : </Form.Label>
-                    <Form.Control
+                    {/* <Button variant="success" className="logout-btn4">
+                  Submit
+                </Button> */}
+                    <input
                       type="text"
+                      className='mobileNumb'
                       placeholder="Mobile Number"
-                      value={employeeData.mobileNumber}
+                      value={mobileNumber}
                       onChange={this.handleMobileNumberChange}
-                      readOnly
+                      maxLength={10}
                     />
+                    <Button variant="success" onClick={this.mobileNumberUpdata} className="logout-btn4">
+                  Submit
+                </Button>
                   </Form.Group>
                 </Col>
                 <Col md={6}>
@@ -203,6 +271,7 @@ addDataFunction2 = (data5)=>{
                   <Table striped bordered hover>
                     <thead>
                       <tr>
+                        <th> SI Number </th>
                         <th>Task Number</th>
                         <th>Employee ID</th>
                         <th>Description</th>
@@ -218,6 +287,7 @@ addDataFunction2 = (data5)=>{
                     <tbody>
                       {allTasksData.map((task) => (
                         <tr key={task.taskNumber}>
+                          <td>{(this.state.count+=1) -8 }</td>
                           <td>{task.taskNumber.slice(30,36)}</td>
                           <td>{task.employeeId}</td>
                           <td>{task.taskDiscription}</td>
@@ -226,7 +296,7 @@ addDataFunction2 = (data5)=>{
                           <td>{task.assignedStatus}</td>
                           <td>
                           {task.completeDateTime === "" ? <div><Button variant="success" 
-                              onClick={() => this.submitTaskApi(task.taskNumber)}>
+                              onClick={() => this.submitTaskCompleted(task.employeeId,task.taskNumber)}>
                               <IoCheckmarkDoneCircle />
                             </Button>
                             <CompleteWorkStatus
@@ -238,7 +308,18 @@ addDataFunction2 = (data5)=>{
                             
                           </td>
                           <td>{task.completeStatus}</td>
-                          <td>{task.employeeComment}</td>
+                          <td>
+                          {<div><Button variant="success" 
+                              onClick={() => this.submitTaskApi(task.taskNumber)}>
+                              <IoCheckmarkDoneCircle />
+                            </Button>
+                            <CompleteWorkStatus
+                            addprop22 = {[task.employeeId,this.state.taskNum]}
+                            adddatafunction = {this.addDataFunction2}
+          show={this.state.completeStatusModalShow}
+          onHide={() => this.setState({ completeStatusModalShow: false })}
+        /> </div>} {task.employeeComment}
+                          </td>
                           <td>{task.managerComment}</td>
                         </tr>
                       ))}
