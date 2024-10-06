@@ -39,6 +39,7 @@ class AllTasksDashboard extends Component {
 
   getAllTasksApiDash = async () =>{
     const url = "http://localhost:4000/getAllTasks"
+    const url2 = "http://localhost:4000/getDeletedTasks"
     const options = {
       method: 'GET',
       headers: {
@@ -47,10 +48,14 @@ class AllTasksDashboard extends Component {
       },
     }
     try {
+      const response2 = await fetch(url2)
+      const data2 = await response2.json()
       const response = await fetch(url, options)
       const data = await response.json()
-      if(response.status === 201){
-        this.setState({tasksData:data})
+      const { tasksData} = this.state
+      if(response.status === 201 && response2.status === 201){
+        this.setState({tasksData:[...data,...data2]})
+        console.log(tasksData)
       }
     } catch (e) {
       console.log(`Error at getting all tasks : ${e.message}`)
@@ -126,7 +131,7 @@ class AllTasksDashboard extends Component {
     const domains = [
       "All","FULL STACK",'FRONTEND',"BACKEND","DATA BASE","BUSINESS ANALYST","Dev Ops","DATA SCIENCE","TESTING","FIGMA"
     ];
-    const statuses = ["All", "Completed", "Not Completed"];
+    const statuses = ["All", "Completed", "Not Completed", "Deleted"];
     const token = Cookies.get("Admin_Secret_Token")
     if (!token) {
       return <Navigate to="/" />;

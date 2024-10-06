@@ -58,6 +58,7 @@ class Admin extends Component {
         },
       ],
     };
+    this.pollingInterval2 = null;
   }
 
   handleShow2 = () => {
@@ -128,8 +129,24 @@ class Admin extends Component {
       this.setState({showAddTaskPop:true})
   };
 
+  componentWillUnmount() {
+    this.stopPolling2(); // Clean up polling when component unmounts
+  }
+
+  stopPolling2 = () => {
+    clearInterval(this.pollingInterval2);
+  }
+
+
+  startPolling2 = () => {
+    this.pollingInterval2 = setInterval(() => {
+      this.getApiEmployeeTasks()
+    }, 5000); // Poll every 5 seconds
+  }
+
   componentDidMount() {
     this.getApiEmployeesData()
+    this.startPolling2();
     if (this.state.empName !== ""){
       this.getApiEmployeeTasks()
     }
@@ -193,6 +210,7 @@ class Admin extends Component {
   }
   }
 
+
   assignTask = async (taskIdNum,idNum2) =>{
     const dataAssign = {
       "idNum":idNum2,
@@ -241,7 +259,7 @@ class Admin extends Component {
     const dataAssign = {
       "employeeId":idNum2,
       "taskNumber": taskIdNum,
-      "completeStatus": "",
+      "completeStatus": "Not Completed",
       "completeDateTime":""
     }
     const url = "http://localhost:4000/inComplteStatus"
@@ -416,7 +434,7 @@ class Admin extends Component {
                           <td className='thredtask5466'>{task.employeeComment}</td>
                           <td className='thredtask5466'>{task.managerComment}</td>
                           <td className='thredtask5466'>
-                          <Button variant="danger" onClick={() => this.deleteTask(task.taskNumber,name.employeeId)}>
+                          <Button variant="danger" onClick={() => this.deleteTask(task.taskNumber,name.employeeId,task.completeStatus)}>
                           <MdDelete />
                             </Button>
                           </td>
