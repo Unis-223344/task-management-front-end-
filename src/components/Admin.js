@@ -163,7 +163,7 @@ class Admin extends Component {
           const dataNa = {
             "empId":empName
           }
-          const url = "http://localhost:4000/tasksData"
+          const url = "https://unis-task-manager.onrender.com/tasksData"
           const getTask = await  fetch(url, {
             method: 'POST',
             headers:{
@@ -184,7 +184,7 @@ class Admin extends Component {
 
   getApiEmployeesData = async ()=>{
     const {getApiData} = this.state
-    const url = "http://localhost:4000/employeeDataAdd"
+    const url = "https://unis-task-manager.onrender.com/employeeDataAdd"
     const response = await fetch(url,{
       method:"GET"
     })
@@ -193,7 +193,7 @@ class Admin extends Component {
   }
 
   deleteTask = async (taskDeleteId,idNum4) => {
-    const url = "http://localhost:4000/oneTaskDelete"
+    const url = "https://unis-task-manager.onrender.com/oneTaskDelete"
     const options = {
       method: 'DELETE',
       headers: {
@@ -218,7 +218,7 @@ class Admin extends Component {
       "taskAssignedTime3": new Date().toLocaleString(),
       "assignedStatus3":"Assigned"
     }
-    const url = "http://localhost:4000/updateTaskAssigned"
+    const url = "https://unis-task-manager.onrender.com/updateTaskAssigned"
     const getTask = await fetch(url, {
       method: 'PUT',
       headers:{
@@ -240,7 +240,7 @@ class Admin extends Component {
       "taskAssignedTime": "",
       "assignedStatus":""
     }
-    const url = "http://localhost:4000/workAssignedStatus"
+    const url = "https://unis-task-manager.onrender.com/workAssignedStatus"
     const getTask = await fetch(url, {
       method: 'PUT',
       headers:{
@@ -262,7 +262,7 @@ class Admin extends Component {
       "completeStatus": "Not Completed",
       "completeDateTime":""
     }
-    const url = "http://localhost:4000/inComplteStatus"
+    const url = "https://unis-task-manager.onrender.com/inComplteStatus"
     const getTask = await fetch(url, {
       method: 'PUT',
       headers:{

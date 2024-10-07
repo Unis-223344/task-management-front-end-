@@ -14,7 +14,7 @@ class CompleteWorkStatus extends React.Component {
 
 
     taskStatusUpdate = async (addprop22) =>{
-        const url = "http://localhost:4000/updateCreateStatus"
+        const url = "https://unis-task-manager.onrender.com/updateCreateStatus"
         const bodyData = {
             "idNum":addprop22[0],
             "taskId2":addprop22[1],

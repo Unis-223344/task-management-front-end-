@@ -32,7 +32,7 @@ class EmployeeTaskDashboard extends Component {
       isAdmin:false
     };
     this.pollingInterval = null; // Initialize polling interval
-    this.socket = io("http://localhost:4000")
+    this.socket = io("https://unis-task-manager.onrender.com")
   }
 
   submitTaskApi = (num) => {
@@ -100,7 +100,7 @@ class EmployeeTaskDashboard extends Component {
 
   mobileNumberUpdate = async () => {
     const { employeeData, mobileNumber } = this.state;
-    const url = "http://localhost:4000/EmployeeDetailsUpdate";
+    const url = "https://unis-task-manager.onrender.com/EmployeeDetailsUpdate";
     const dataBody = {
       "email": employeeData.gmailId,
       "mobileNumber1": mobileNumber
@@ -147,7 +147,7 @@ class EmployeeTaskDashboard extends Component {
   };
 
   submitTaskCompleted = async (idNum1,taskNum1) =>{
-  const url = "http://localhost:4000/EmployeeCompleteWorkStatus"
+  const url = "https://unis-task-manager.onrender.com/EmployeeCompleteWorkStatus"
   const bodyData = {
       idNum: idNum1,
       taskNum:taskNum1,
@@ -175,7 +175,7 @@ class EmployeeTaskDashboard extends Component {
 }
 
 submitNotTaskCompleted = async (idNum1,taskNum1) =>{
-  const url = "http://localhost:4000/EmployeeCompleteWorkStatus"
+  const url = "https://unis-task-manager.onrender.com/EmployeeCompleteWorkStatus"
   const bodyData = {
       idNum: idNum1,
       taskNum:taskNum1,

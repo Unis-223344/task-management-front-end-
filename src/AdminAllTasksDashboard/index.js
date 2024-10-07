@@ -38,8 +38,8 @@ class AllTasksDashboard extends Component {
   }
 
   getAllTasksApiDash = async () =>{
-    const url = "http://localhost:4000/getAllTasks"
-    const url2 = "http://localhost:4000/getDeletedTasks"
+    const url = "https://unis-task-manager.onrender.com/getAllTasks"
+    const url2 = "https://unis-task-manager.onrender.com/getDeletedTasks"
     const options = {
       method: 'GET',
       headers: {
