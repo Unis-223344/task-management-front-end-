@@ -174,6 +174,36 @@ class EmployeeTaskDashboard extends Component {
   }
 }
 
+submitNotTaskCompleted = async (idNum1,taskNum1) =>{
+  const url = "http://localhost:4000/EmployeeCompleteWorkStatus"
+  const bodyData = {
+      idNum: idNum1,
+      taskNum:taskNum1,
+      status1: "Not Completed",
+      statusTime1: ""
+  }
+  const options = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(bodyData),
+  }
+  try {
+    const response = await fetch(url,options)
+    const data = await response.json()
+    if (response.status === 201){
+      alert("Status Updated Successfully")
+      this.setState({allTasksData:data})
+    }
+  } catch (e) {
+    console.log(`Error at updating status ${e.message}`)
+  }
+}
+
+
+
   render() {
     const { mobileNumber, employeeData, allTasksData } = this.state;
     const jwtToken = Cookies.get('Task_Secret_Token');
@@ -228,7 +258,7 @@ class EmployeeTaskDashboard extends Component {
                       onChange={this.handleMobileNumberChange}
                       maxLength={10}
                     />
-                    <Button variant="success" onClick={this.mobileNumberUpdata} className="logout-btn4">
+                    <Button variant="success" onClick={this.mobileNumberUpdate} className="logout-btn4">
                   Submit
                 </Button>
                   </Form.Group>
@@ -252,7 +282,6 @@ class EmployeeTaskDashboard extends Component {
                   <Table striped bordered hover>
                     <thead>
                       <tr>
-                        <th> SI Number </th>
                         <th>Task Number</th>
                         <th>Employee ID</th>
                         <th>Description</th>
@@ -268,7 +297,6 @@ class EmployeeTaskDashboard extends Component {
                     <tbody>
                       {allTasksData.map((task) => (
                         <tr key={task.taskNumber}>
-                          <td>{(this.state.count+=1) -8 }</td>
                           <td>{task.taskNumber.slice(30,36)}</td>
                           <td>{task.employeeId}</td>
                           <td>{task.taskDiscription}</td>
@@ -286,6 +314,15 @@ class EmployeeTaskDashboard extends Component {
           show={this.state.completeStatusModalShow}
           onHide={() => this.setState({ completeStatusModalShow: false })}
         /> </div>  : task.completeDateTime}
+
+{task.completeDateTime !== "" ? <div><Button variant="danger" 
+                              onClick={() => this.submitNotTaskCompleted(task.employeeId,task.taskNumber)}>
+                              <IoCheckmarkDoneCircle />
+                            </Button>
+                             </div>  : task.completeDateTime}
+
+
+
                             
                           </td>
                           <td>{task.completeStatus}</td>

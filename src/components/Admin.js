@@ -355,7 +355,7 @@ class Admin extends Component {
                     <Form.Control
                       type="text"
                       placeholder="Enter Mobile Number"
-                      value={mobileNumber}
+                      value={name.mobileNumber}
                       readOnly
                     />
                   </Form.Group>
