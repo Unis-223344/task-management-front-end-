@@ -120,7 +120,9 @@ class TaskPostApiPopUp extends React.Component {
           <Modal.Title id="contained-modal-title-vcenter">
             POST TASK
           </Modal.Title>
-          <Button onClick={this.props.onHide3}>X</Button>
+          <div >
+          <Button className='BackButton' onClick={this.props.onHide3}>X</Button>
+          </div>
         </Modal.Header>
         <Modal.Body>
                 <div className="resizable-window0123">

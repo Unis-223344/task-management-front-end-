@@ -10,6 +10,7 @@ class AllTasksDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      dropDownOpen:false,
       modalShow2: false,
       idNum4:"",
       taskNumTooEdit4:"",
@@ -122,6 +123,17 @@ class AllTasksDashboard extends Component {
     saveAs(data, "Employee_Tasks.xlsx");  // This will download the Excel file
   };
 
+  // Handle mouse leave for dropdown
+  handleMouseLeave = () => {
+    this.setState({dropDownOpen:false})
+  };
+ 
+  // Handle mouse enter for dropdown (desktop only)
+  handleMouseEnter = () => {
+      this.setState({dropDownOpen:true})
+    
+  };
+
 
 
   render() {
@@ -137,7 +149,7 @@ class AllTasksDashboard extends Component {
       return <Navigate to="/" />;
     }
     return (
-      <div className="dashboard-container">
+      <div className="dashboard-container01">
         <div className="flexitems">
         <h1 className="dashboard-title">Admin Task Dashboard</h1>
 
@@ -148,13 +160,19 @@ class AllTasksDashboard extends Component {
           </Link>
             </div> 
         <div>
-          <button className="logout-btn ght" onClick={this.logOutRemoveToken}> Logout </button>
+          <button className="logout-btn ght01" onClick={this.logOutRemoveToken}> Logout </button>
             </div> 
             </div>
 
         </div>
+
+        <div className="flexHead01">
         <h1 className="dashboard-title2">Domain Task Count : {tasksData.length}</h1>
+        
+        <div className="button-container01">
         <button onClick={this.downloadExcel}>Download Excel</button>
+        </div>
+        </div>
 
         {/* Domain Selection */}
         <div className="domain-selection">
@@ -164,6 +182,8 @@ class AllTasksDashboard extends Component {
             value={selectedDomain}
             onChange={this.handleDomainChange}
             className="domain-select"
+            onMouseEnter={this.handleMouseEnter} // Open on hover for desktop
+          onMouseLeave={this.handleMouseLeave}
           >
             {domains.map((domain, index) => (
               <option key={index} value={domain}>

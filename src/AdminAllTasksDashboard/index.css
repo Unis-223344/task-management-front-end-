@@ -1,48 +1,76 @@
-.dashboard-container {
-  max-width: 900px;
+.dashboard-container01 {
   margin: auto;
-  padding: 20px;
+  padding:5px;
   font-family: Arial, sans-serif;
+
 }
 
 .dashboard-title2{
   font-size: 30px;
   font-weight: bold;
+  padding-top:auto;
+  margin-top:auto;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  margin-left: 20px;
 }
-
-.ght{
-  margin-right: 200px;
+.button-container01 {
+  display:flex;
+  justify-content:end;
+  margin-bottom:10px;
+  margin-right: 30px;
+}
+.flexHead01{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+.ght01{
+  margin-right:2px;
+  text-decoration: none;
 }
 
 .btn-flex{
-  display: flex;
+  display:flex;
   justify-content: flex-start;
+  padding: 25px;
 }
 
 .flexitems{
   display: flex;
   justify-content: space-between;
+  background-color:black;
+  color: #faeeee;
+  margin-left:2px;
+  padding-top: 10px;
 }
 
 .dashboard-title {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom:10px;
+  padding:10px;
+  padding-left:20px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .domain-selection, .status-selection, .search-employee {
-  display: flex;
+  display:contents;
   justify-content: center;
-  margin-bottom: 20px;
-}
+  margin-top:auto;
+  max-width:150px;
+  }
 
 .domain-label, .status-label, .search-label {
-  margin-right: 10px;
+  margin-right:5px;
+  margin-left: 20px;
+  gap:10;
+  font-size: 20px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .domain-select, .status-select, .search-input {
   padding: 8px;
-  font-size: 16px;
+  font-size:17px;
 }
 
 .employee-task-table {
@@ -52,20 +80,24 @@
 .task-table {
   width: 100%;
   border-collapse: collapse;
+  background-color:black;
+  color:white;
 }
 
 .task-table th, .task-table td {
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #ebdede;
   text-align: center;
 }
 
 .task-row.completed {
-  background-color: #e0ffe0;
+  background-color: #abf0ab;
+  color: black;
 }
 
 .task-row.not-completed {
-  background-color: #ffe0e0;
+  background-color: #ebcaca;
+  color: black;
 }
 
 .status-completed {
