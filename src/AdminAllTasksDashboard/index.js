@@ -232,7 +232,7 @@ class AllTasksDashboard extends Component {
                 <th> SI Number</th>
                 <th>Employee Name</th>
                 <th>Task ID</th>
-                <th>Discription</th>
+                <th>Description</th>
                 <th>Domain</th>
                 <th>Task Create Time</th>
                 <th>Task Assigned Time</th>

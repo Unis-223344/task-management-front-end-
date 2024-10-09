@@ -72,7 +72,7 @@ class LoginForm extends Component {
           </div>
           <div className="input-container">
           <label className="input-label" htmlFor="username">
-          Email
+          EMAIL 
         </label>
         <input
           type="text"

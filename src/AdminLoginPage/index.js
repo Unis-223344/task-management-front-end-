@@ -69,7 +69,7 @@ class AdminLoginForm extends Component {
           </div>
           <div className="input-container">
           <label className="input-label" htmlFor="username">
-          Admin Name
+          ADMIN NAME 
         </label>
         <input
           type="text"

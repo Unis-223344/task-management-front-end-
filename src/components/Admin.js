@@ -343,7 +343,7 @@ class Admin extends Component {
                     <Form.Label className='email66'>Email : </Form.Label>
                     <Form.Control
                       type="email"
-                      placeholder="Gmail"
+                      placeholder="Email"
                       value={name.gmailId}
                       readOnly
                     />
